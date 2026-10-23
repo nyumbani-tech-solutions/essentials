@@ -30,6 +30,7 @@
 		"laravel/pail": "^1.2.5",
 		"laravel/pint": "^1.27",
 		"nyumbani/docs": "^1.1",
+		"orchestra/testbench": "^10.0|^11.0",
 		"pestphp/pest": "^5.3",
 		"pestphp/pest-plugin-laravel": "^5.0"
 	},
@@ -42,6 +43,19 @@
 	"autoload": {
 		"psr-4": {
 			"Nyumbani\\Essentials\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Nyumbani\\Essentials\\Tests\\": "tests/"
+		}
+	},
+	"scripts": {
+		"test": "pest"
+	},
+	"config": {
+		"allow-plugins": {
+			"pestphp/pest-plugin": true
 		}
 	},
 	"extra": {
