@@ -15,6 +15,8 @@ Use these instead of `number_format()`, `date()`, `Carbon::format()` or a litera
 | `money($n)` / `money($n, false)` | `@money($n)` | `KES 1,500.00` / `1,500.00` |
 | `numeric($n, $decimals = 2)` | `@numeric($n, 0)` | `1,200.50` |
 | `percentage($value, $total)` | `@percentage($paid, $total)` | `12.50`, or `0.00` when the total is not above 0 |
+| `amount_in_words($n)` / `amount_in_words($n, 'USD')` | none | `One Million Kenya Shillings Only`, cents as `and Fifty Cents` |
+| `number_in_words($n)` | none | `Three Million Two Hundred Fifty Thousand` |
 | `currency()` | `@currency` | the symbol from `essentials.currency` |
 | `prettify($text)` | `@prettify($status)` | `Order Status` |
 | `format_date($d)` | `@date($d)` | `12 Mar 2026` |
