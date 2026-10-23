@@ -10,6 +10,8 @@
             ['money($amount, $showCurrency = true)', 'Formatted money', 'money(1500) gives KES 1,500.00'],
             ['numeric($number, $decimals = 2)', 'A number with separators', 'numeric(1200.5) gives 1,200.50'],
             ['percentage($value, $total)', 'The share of a total as a formatted number, or 0.00 when the total is not above 0', 'percentage(25, 200) gives 12.50'],
+            ['amount_in_words($amount, $currency = null)', 'A money amount in words, for receipts', 'amount_in_words(1000000) gives One Million Kenya Shillings Only'],
+            ['number_in_words($number)', 'A whole number in words', 'number_in_words(3250000) gives Three Million Two Hundred Fifty Thousand'],
             ['currency()', 'The currency symbol', 'KES'],
             ['prettify($text)', 'Title Case from snake or kebab case', 'prettify(\'order_status\') gives Order Status'],
             ['format_date($date)', 'A date', '12 Mar 2026 (05 Nov 2026 for single-digit days)'],
@@ -38,6 +40,8 @@
             numeric('n/a');               // n/a
             percentage(25, 200);          // 12.50
             percentage(25, 0);            // 0.00
+            amount_in_words(1500.50);     // One Thousand Five Hundred Kenya Shillings and Fifty Cents Only
+            amount_in_words(null);        // null
             format_date('2026-03-12');    // 12 Mar 2026
             format_date('not a date');    // not a date
             format_minutes(90);           // 1h 30m
