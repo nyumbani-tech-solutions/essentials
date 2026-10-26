@@ -93,22 +93,41 @@
     </x-docs::section>
 
     <x-docs::section id="checklist" title="The checklist">
-        <p>The installer never edits your application code. When it finishes it prints what it found and what is left for you:</p>
+        <p>The installer never edits your application code. When it finishes it prints what it found and what is left for you, with a progress bar. A done item stays quiet, a <strong>✗</strong> item is needed for Essentials to work, and a <strong>○</strong> item matters only if you use that feature. Under each open item is its fix.</p>
         <x-docs::code lang="text" title="Setup checklist">
-            User model implements HasHomeRoute ................. done
-            User model has roles and default permissions ....... to do
-                Use Nyumbani\Essentials\Traits\HasDefaultPermissions on the user model.
-            User model can be impersonated ..................... to do
-                Use Lab404\Impersonate\Models\Impersonate on the user model.
-            Migrations have run (permissions with group, activity_log) .. to do
-                Run php artisan migrate.
-            Laravel Boost is installed ......................... done
-            Boost is set up with the Nyumbani packages ......... done
-            discord log channel ................................ optional
-            Daraja credentials set ............................. optional
-            Nyumbani Connect settings set ...................... optional
+            Setup checklist  ━━━━━━━━━━━━━━━━━━━━  4 of 10 done
+
+              ✗ User model implements HasHomeRoute
+                → Implement Nyumbani\Essentials\Contracts\HasHomeRoute and add homeRoute().
+              ✗ User model has roles and default permissions
+                → Use Nyumbani\Essentials\Traits\HasDefaultPermissions on the user model.
+              ✗ User model can be impersonated
+                → Use Lab404\Impersonate\Models\Impersonate on the user model.
+              ✗ Migrations have run (permissions with group, activity_log)
+                → Run php artisan migrate.
+              ✓ Laravel Boost is installed
+              ✓ Boost is set up with the Nyumbani packages
+              ✓ discord log channel
+              ○ Docs package is a dev dependency (optional)
+                → Run composer require --dev nyumbani/docs, which also moves it out of require if it sits there.
+              ○ Daraja credentials set (optional)
+                → Set DARAJA_SHORT_CODE, DARAJA_CONSUMER_KEY, DARAJA_CONSUMER_SECRET and DARAJA_PASS_KEY in .env.
+              ○ Nyumbani Connect settings set (optional)
+                → Set NYUMBANI_CONNECT_BASE_URL and NYUMBANI_CONNECT_TOKEN in .env.
         </x-docs::code>
-        <p><strong>to do</strong> items are needed for Essentials to work. <strong>optional</strong> items matter only if you use that feature: the Discord log channel and, for the packages you chose, the Daraja credentials and the Nyumbani Connect settings. Fix an item and run the command again to see it turn to <strong>done</strong>. The command ends with an invitation that links to the docs of each package. Read <a href="{{ $docs->url('rules-and-skills') }}">Rules and skills</a> for what lands where.</p>
+        <x-docs::table :columns="['Item', 'Shown', 'To fix it']" :rows="[
+            ['User model implements HasHomeRoute', 'Always', 'Implement the contract and return a URL from homeRoute(). A dashboard route is not required.'],
+            ['User model has roles and default permissions', 'Always', 'Use Nyumbani\\Essentials\\Traits\\HasDefaultPermissions, not Spatie\'s HasPermissions, which the checklist names when that is what the model imports.'],
+            ['User model can be impersonated', 'Always', 'Use Lab404\\Impersonate\\Models\\Impersonate.'],
+            ['Migrations have run', 'Always', 'Run php artisan migrate, or answer yes to the installer\'s question on the next interactive run.'],
+            ['Laravel Boost is installed', 'Always', 'Run the installer; it requires laravel/boost --dev for you.'],
+            ['Boost is set up with the Nyumbani packages', 'Always', 'Run composer require for the packages you chose, then the installer again: Boost reads only packages the app requires itself.'],
+            ['discord log channel', 'Always, optional', 'Add a discord channel to config/logging.php, which the installer does when the file allows.'],
+            ['Docs package is a dev dependency', 'When you chose Docs, optional', 'Run composer require --dev nyumbani/docs.'],
+            ['Daraja credentials set', 'When you chose Daraja, optional', 'Set the DARAJA_* keys in .env.'],
+            ['Nyumbani Connect settings set', 'When you chose Messaging, optional', 'Set NYUMBANI_CONNECT_BASE_URL and NYUMBANI_CONNECT_TOKEN in .env.'],
+        ]" />
+        <p>Fix an item and run the command again to see it turn to done. The theme, scripts, Livewire and portal items belong to the UI package and are printed by <code>ui:install</code>, see the <x-docs::package-link package="nyumbani-ui" page="installation" anchor="checklist">UI installation</x-docs::package-link>. The command ends with an invitation that links to the docs of each package. Read <a href="{{ $docs->url('rules-and-skills') }}">Rules and skills</a> for what lands where.</p>
     </x-docs::section>
 
     <x-docs::section id="options" title="Command options">

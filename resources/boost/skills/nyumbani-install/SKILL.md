@@ -32,7 +32,7 @@ Choice rule: no `--with` or `--without` on an interactive run shows the checkbox
 9. **Storage link.** Links `public/storage` when a configured link is missing.
 10. **Pint.** Runs `vendor/bin/pint` on only the PHP files the installer published or edited (configs, migrations, `config/logging.php`), never the app's own code; skipped when the app has no Pint.
 11. **Boost.** The first time (no `boost.json`) it runs `boost:install`. Always, it loads Essentials and the chosen packages into `boost.json`, lists their skills there (`boost:update` installs only the skills named in `boost.json`, and finds new ones only by asking, which a non-interactive run cannot), sets the agent to `claude_code` when none is set (a non-interactive first install picks none, and `boost:update` refuses to run without one), then runs `boost:update`.
-12. **Checklist.** Prints a table of done, optional and to-do items for Essentials; the UI prints its own.
+12. **Checklist.** Prints a progress bar and, for each item, a ✓ (done, quiet), ✗ (to do, with its fix) or ○ (optional, with its fix) for Essentials; the UI prints its own.
 13. **Docs invitation.** Ends with a panel linking the UI Quick start and the docs of Essentials, UI, Daraja, Messaging and DtTables (built from the registered docs, so the links always match the real routes).
 
 ## Reading the UI checklist
@@ -56,7 +56,9 @@ These items are printed by `php artisan ui:install`, which is safe to run again.
 | Migrations have run | Run `php artisan migrate`, or answer yes to `Run the migrations now?` on the next interactive run. The installer publishes migrations and runs them only when you say yes. |
 | Laravel Boost is installed | Run the installer; it requires Boost for you. |
 | Boost is set up with the Nyumbani packages | Run `composer require` for the packages you chose, then the installer again. |
-| discord log channel, Daraja credentials, Connect settings | Optional: needed only if the app uses that feature. The Daraja and Connect items appear only when that package was chosen. |
+| discord log channel | Optional: add a `discord` channel to `config/logging.php` (the installer does when the file allows). |
+| Docs package is a dev dependency | Optional, shown when Docs was chosen: `composer require --dev nyumbani/docs`. |
+| Daraja credentials, Connect settings | Optional, shown only when that package was chosen: set the `DARAJA_*` keys, or `NYUMBANI_CONNECT_BASE_URL` and `NYUMBANI_CONNECT_TOKEN`, in `.env`. |
 
 The installer reports; it never edits the user model, the routes or any other application code. It only adds the configuration, build and framework files described above, and the portal's files (through `ui:install`), none of which it overwrites.
 
