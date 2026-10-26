@@ -15,6 +15,8 @@ Use these instead of `number_format()`, `date()`, `Carbon::format()` or a litera
 | `money($n)` / `money($n, false)` | `@money($n)` | `KES 1,500.00` / `1,500.00` |
 | `numeric($n, $decimals = 2)` | `@numeric($n, 0)` | `1,200.50` |
 | `percentage($value, $total)` | `@percentage($paid, $total)` | `12.50`, or `0.00` when the total is not above 0 |
+| `money_in_words($n)` / `money_in_words($n, 'USD')` | `@moneyinwords($n)` | `One Million Kenya Shillings Only`, `One Kenya Shilling and Fifty Cents Only`, `Fifty Cents Only`; rounded to whole cents |
+| `number_in_words($n)` | none | `Three Million Two Hundred Fifty Thousand`; fractions and values from `PHP_INT_MAX` come back unchanged |
 | `currency()` | `@currency` | the symbol from `essentials.currency` |
 | `prettify($text)` | `@prettify($status)` | `Order Status` |
 | `format_date($d)` | `@date($d)` | `12 Mar 2026` |
@@ -25,7 +27,7 @@ Use these instead of `number_format()`, `date()`, `Carbon::format()` or a litera
 
 The helpers are forgiving: a value that is not a number or a date is returned unchanged, never an exception, and a null date gives null (an empty cell), so a nullable column can be printed directly.
 
-The same names exist on `window` once the essentials bundle is loaded (`money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate`, `formatDateTime`), with three differences: `numeric()` defaults to 0 decimals in JavaScript (2 in PHP), `formatDateTime()` adds the weekday and a lower-case `pm`, and an unreadable date gives `Invalid date` instead of the input.
+The same names exist on `window` once the essentials bundle is loaded (`money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate`, `formatDateTime`), with three differences: `numeric()` defaults to 0 decimals in JavaScript (2 in PHP), `formatDateTime()` adds the weekday and a lower-case `pm`, and an unreadable date gives `Invalid date` instead of the input. `money_in_words()` and `number_in_words()` are PHP-only.
 
 ## The period filter
 `$request->period()` turns the `period` input into the dates a report queries. Read it once.
