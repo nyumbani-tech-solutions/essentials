@@ -45,8 +45,8 @@ DB::transaction(function () use ($customer) {
 });
 ```
 
-## Flash feedback through alerts keys
-Redirect with `->alert('success'|'error'|'warning', __('alerts.<domain>.<action>'))`. The keys are nested by domain, and the messages are full sentences with `:placeholder` interpolation. Never hardcode the sentence in the controller.
+## Flash feedback through __()
+Redirect with `->alert('success'|'error'|'warning', __('...'))`, where the key is the English sentence or a nested alerts key such as `alerts.<domain>.<action>`. Messages are full sentences with `:placeholder` interpolation. Never pass an untranslated string.
 
 ## Index listings are newest-first
 Order plain listings with `->latest('id')` (qualified with the table for joined queries), not `latest()`. Skip this for manually ranked lists, grouped dashboards and inherently chronological views.

@@ -53,8 +53,8 @@
         <x-docs::rule title="Log every mutation">
             <p>Every create, update, activate or deactivate records <code>activity()-&gt;performedOn($model)-&gt;event('subject-verbed')-&gt;log('...')</code> with kebab-case event names.</p>
         </x-docs::rule>
-        <x-docs::rule title="Flash with alert keys">
-            <p>Redirect with <code>-&gt;alert('success'|'error'|'warning', trans('alerts.&lt;domain&gt;.&lt;action&gt;'))</code>. Keys are nested by domain and the messages are full sentences with <code>:placeholder</code> values. Never hardcode the sentence.</p>
+        <x-docs::rule title="Flash through __()">
+            <p>Redirect with <code>-&gt;alert('success'|'error'|'warning', __('...'))</code>, where the key is the English sentence or a nested alerts key such as <code>alerts.&lt;domain&gt;.&lt;action&gt;</code>. Messages are full sentences with <code>:placeholder</code> values. Never pass an untranslated string.</p>
         </x-docs::rule>
         <x-docs::rule title="Newest first">
             <p>Order plain listings with <code>-&gt;latest('id')</code>, qualified with the table when joined, not <code>latest()</code>. Skip it for manually ranked lists, grouped dashboards and inherently chronological views.</p>
@@ -129,8 +129,8 @@
         <x-docs::rule title="API Resources for JSON">
             <p>Wrap models and collections returned from consumer-facing endpoints in a <code>JsonResource</code> or <code>toResourceCollection()</code>, not <code>response()-&gt;json()</code> or raw models. Resources return without the <code>data</code> wrapper. Keep <code>response()-&gt;json()</code> for acknowledging third-party webhooks and callbacks.</p>
         </x-docs::rule>
-        <x-docs::rule title="Short dotted language keys">
-            <p>Write user-facing and log messages as short dotted keys from dedicated <code>lang/en/*.php</code> files, such as <code>trans('alerts.success.saved')</code> or <code>trans('logs.login')</code>. Do not use <code>__('Full sentence')</code> JSON-style keys. Blade copy is plain English with no <code>__()</code> or <code>@@lang()</code>; only flash messages go through the <code>alerts.*</code> keys.</p>
+        <x-docs::rule title="Language keys">
+            <p>Write user-facing and log messages through <code>__()</code> or <code>trans()</code>. The key is either the English sentence itself, translated in <code>lang/{code}.json</code> (<code>__('Sign In')</code>), or a short dotted key from a <code>lang/en/*.php</code> file (<code>trans('alerts.success.saved')</code>, <code>trans('logs.login')</code>). Dotted keys are not required: use whichever the file already uses, and do not rename existing keys. Blade copy is plain English unless the app serves more than one language, then it goes through <code>__()</code> with the English text as the key.</p>
             <x-docs::code lang="php" title="lang/en/alerts.php">
                 @verbatim
                 return [
