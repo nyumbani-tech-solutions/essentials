@@ -23,7 +23,7 @@ Use these instead of `number_format()`, `date()`, `Carbon::format()` or a litera
 | `format_humans($d)` | `@dateforhumans($d)` | `2 hours ago` |
 | `format_minutes($m)` | none | `1h 30m` |
 
-The helpers are forgiving: a value that is not a number or a date is returned unchanged, never an exception.
+The helpers are forgiving: a value that is not a number or a date is returned unchanged, never an exception, and a null date gives null (an empty cell), so a nullable column can be printed directly.
 
 The same names exist on `window` once the essentials bundle is loaded (`money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate`, `formatDateTime`), with three differences: `numeric()` defaults to 0 decimals in JavaScript (2 in PHP), `formatDateTime()` adds the weekday and a lower-case `pm`, and an unreadable date gives `Invalid date` instead of the input.
 

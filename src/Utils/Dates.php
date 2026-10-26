@@ -11,8 +11,13 @@ if (! function_exists('format_date')) {
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
-    function format_date(string|Carbon $date): string
+    function format_date(string|Carbon|null $date): ?string
     {
+        //  Keep an empty value empty
+        if (is_null($date)) {
+            return null;
+        }
+
         //  Parse and format the date
         try {
             $date = Carbon::parse($date)->format('d M Y');
@@ -31,8 +36,13 @@ if (! function_exists('format_time')) {
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
-    function format_time(string|Carbon $date, int $format = 12): string
+    function format_time(string|Carbon|null $date, int $format = 12): ?string
     {
+        //  Keep an empty value empty
+        if (is_null($date)) {
+            return null;
+        }
+
         //  Parse and format the time
         try {
             //  Parse the date
@@ -57,8 +67,13 @@ if (! function_exists('format_date_time')) {
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
-    function format_date_time(string|Carbon $date, int $format = 12): string
+    function format_date_time(string|Carbon|null $date, int $format = 12): ?string
     {
+        //  Keep an empty value empty
+        if (is_null($date)) {
+            return null;
+        }
+
         //  Parse and format the date time
         try {
             //  Parse the date
@@ -105,8 +120,13 @@ if (! function_exists('format_humans')) {
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
-    function format_humans(string|Carbon $date): string
+    function format_humans(string|Carbon|null $date): ?string
     {
+        //  Keep an empty value empty
+        if (is_null($date)) {
+            return null;
+        }
+
         //  Parse and format the date
         try {
             $date = Carbon::parse($date)->diffForHumans();
