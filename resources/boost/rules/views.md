@@ -76,8 +76,11 @@ Use `@date`, `@time`, `@datetime`, `@dateforhumans`, `@numeric`, `@currency`, `@
 ## Blade syntax
 Use `@class()` for conditional classes, `@selected` / `@checked` for form state, `:$var` shorthand when names match, self-closing tags for slot-less components, `@js()` to pass PHP data to Alpine, and `@push('js')` for inline scripts. Nest content one level deeper than the enclosing directive. Pluralize with `str()->plural()` and build links with `route()`.
 
+## Every form input has a placeholder
+Every form input carries a `placeholder`, never just the label. It is one of three things: a prompt (`Enter your name here`), an example of text that would fit (`e.g. Jane Wanjiru`), or the rule for the input (`At least 8 characters`). Choose the one that helps most; do not repeat the label. The rule covers text, email, tel, password, number and search inputs and every `<textarea>`. A `<select>` gets a first empty option as its placeholder (`<option value="">Select a status</option>`). Checkboxes, radios, file, hidden, date, time and colour inputs have no placeholder to show and are exempt. Placeholders are text for people, so they are translated like any other copy, and they never name a currency (`e.g. 1000`).
+
 ## Forms
-Every text-like input has a helpful placeholder: an example, the expected format, or what a blank value means, never just the label. Required labels carry `aria-required="true"`. Forms never carry a hidden tenant id input.
+Required labels carry `aria-required="true"`. Forms never carry a hidden tenant id input.
 
 ## Double-submit guard and confirmations
 Every submit button is disabled and shows a spinner once its form is submitted, by the package's `submit.js`; do not add your own guard. Opt a button out with `data-allow-resubmit` only when something else runs its busy state (the package has none). Dispatch `reset-loading` on the form to restore a button after an AJAX submit. Destructive actions ask for confirmation, with `x-on:submit="if (! confirm('...')) $event.preventDefault()"` on delete forms. Never call `form.submit()`; use `requestSubmit()`, and never from inside a `submit` listener on the same form.
