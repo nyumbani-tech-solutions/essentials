@@ -36,6 +36,9 @@ class ViewServiceProvider extends ServiceProvider
         //  Spell out amounts in words for receipts, escaped as bad input comes back as it is
         Blade::directive('moneyinwords', fn ($expression) => "<?php echo e(money_in_words($expression)); ?>");
 
+        //  Spell out whole numbers in words, escaped as bad input comes back as it is
+        Blade::directive('numberinwords', fn ($expression) => "<?php echo e(number_in_words($expression)); ?>");
+
         //  Print the currency code
         Blade::directive('currency', fn () => '<?php echo currency(); ?>');
 

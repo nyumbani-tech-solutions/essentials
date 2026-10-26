@@ -16,7 +16,7 @@ Use these instead of `number_format()`, `date()`, `Carbon::format()` or a litera
 | `numeric($n, $decimals = 2)` | `@numeric($n, 0)` | `1,200.50` |
 | `percentage($value, $total)` | `@percentage($paid, $total)` | `12.50`, or `0.00` when the total is not above 0 |
 | `money_in_words($n)` / `money_in_words($n, 'USD')` | `@moneyinwords($n)` | `One Million Kenya Shillings Only`, `One Kenya Shilling and Fifty Cents Only`, `Fifty Cents Only`; rounded to whole cents |
-| `number_in_words($n)` | none | `Three Million Two Hundred Fifty Thousand`; fractions and values from `PHP_INT_MAX` come back unchanged |
+| `number_in_words($n)` | `@numberinwords($n)` | `Three Million Two Hundred Fifty Thousand`; fractions and values from `PHP_INT_MAX` come back unchanged |
 | `currency()` | `@currency` | the symbol from `essentials.currency` |
 | `prettify($text)` | `@prettify($status)` | `Order Status` |
 | `format_date($d)` | `@date($d)` | `12 Mar 2026` |

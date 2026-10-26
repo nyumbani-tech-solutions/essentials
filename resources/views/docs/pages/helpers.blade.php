@@ -59,6 +59,7 @@
             @verbatim
             @money($invoice->total)
             @moneyinwords($receipt->amount)
+            @numberinwords($count)
             @numeric($count, 0)
             @percentage($paid, $total)
             @date($invoice->due_at)
