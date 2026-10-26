@@ -1,6 +1,6 @@
 ---
 name: nyumbani-auth
-description: "Invoke when working on sign-in, logout, password reset, the login throttle, where a user lands after signing in (HasHomeRoute), or impersonating a user in a Nyumbani app. Skip for roles and permissions data (see the seeders rule) and for registration, which Nyumbani apps do not have."
+description: "Invoke when working on sign-in, logout, password reset, the login throttle, where a user lands after signing in (HasHomeRoute), or impersonating a user in a Nyumbani app. Skip for roles and permissions (see nyumbani-permissions) and for registration, which Nyumbani apps do not have."
 metadata:
   author: nyumbani
 ---
@@ -33,6 +33,15 @@ After signing in a user goes to the page they were trying to reach, or else to `
 
 ## The throttle and the username
 `essentials.fortify.max_attempts` (5) is the sign-in attempts a minute for each username and IP address. The form follows `config('fortify.username')`: set it to `phone_number` and the field, label and input type change with it.
+
+## Swapping the sign-in pages
+Fortify renders its pages through `Nyumbani\Essentials\Contracts\AuthViews` (`loginView()`, `forgotPasswordView()`, `resetPasswordView(Request)`). Essentials binds its own by default; a theme or the app binds its own implementation in a service provider's `register()` to replace them. With nothing bound, Fortify has no views.
+```php
+use App\Views\BrandedAuthViews;
+use Nyumbani\Essentials\Contracts\AuthViews;
+
+$this->app->singleton(AuthViews::class, BrandedAuthViews::class);
+```
 
 ## Roles and permissions on the user model
 Use `Nyumbani\Essentials\Traits\HasDefaultPermissions` (it brings Spatie's roles and `assignDefaultPermissions()`). Do not import `Spatie\Permission\Traits\HasPermissions` by mistake: it has no roles and no default permissions. `nyumbani:install` flags the wrong one in its checklist.

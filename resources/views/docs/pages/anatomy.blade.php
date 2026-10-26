@@ -19,7 +19,7 @@
               |
             Blade view                 plain English, directives, components
         </x-docs::code>
-        <p>The rules for each layer live on <a href="{{ $docs->url('http-layer') }}">HTTP layer</a>, <a href="{{ $docs->url('data-layer') }}">Models and data</a>, <a href="{{ $docs->url('app-code') }}">Application code</a> and <a href="{{ $docs->url('view-layer') }}">Views and scripts</a>. This page shows them working together.</p>
+        <p>The rules for each layer live on <a href="{{ $docs->url('http-layer') }}">HTTP layer</a>, <a href="{{ $docs->url('data-layer') }}">Models and data</a>, <a href="{{ $docs->url('app-code') }}">Application code</a> and <x-docs::package-link package="nyumbani-ui" page="view-layer">Views and scripts</x-docs::package-link>. This page shows them working together.</p>
     </x-docs::section>
 
     <x-docs::section id="data" title="1. The data">
@@ -138,13 +138,13 @@
     </x-docs::section>
 
     <x-docs::section id="view" title="4. The view">
-        <p>The Quick start page builds this layer: a page that extends the portal layout, formatting directives for figures and dates, and a modal with an error bag. The only addition for this feature is a status badge from the enum:</p>
+        <p>The Quick start page of the UI package builds this layer: a page that extends the portal layout, formatting directives for figures and dates, and a modal with an error bag. The only addition for this feature is a status badge from the enum:</p>
         <x-docs::code lang="blade">
             @verbatim
             <span class="rounded bg-gray-100 px-2 py-0.5 text-xs">{{ $customer->status->label() }}</span>
             @endverbatim
         </x-docs::code>
-        <p>See <a href="{{ $docs->url('quick-start') }}">Quick start</a>.</p>
+        <p>See <x-docs::package-link package="nyumbani-ui" page="quick-start">Quick start</x-docs::package-link>.</p>
     </x-docs::section>
 
     <x-docs::section id="test" title="5. A test that proves it">

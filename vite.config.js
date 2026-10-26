@@ -2,22 +2,17 @@ import { defineConfig } from 'vite';
 import { resolve } from 'node:path';
 
 /**
- * Bundle every Nyumbani script, as one file (essentials.js) and one file each, with toastr, jQuery, Alpine UI and pluralize inside, into resources/dist,
- * so an app imports one file and installs no npm package. Alpine itself is not bundled: the page's own
- * Alpine (Livewire's) loads the plugin through the alpine:init event.
+ * Bundle the Nyumbani formatting helpers into resources/dist/helpers.js, with pluralize inside,
+ * so an app imports one file and installs no npm package.
  */
 export default defineConfig({
     build: {
         outDir: 'resources/dist',
         emptyOutDir: true,
         lib: {
-            entry: Object.fromEntries(
-                ['essentials', 'toastr', 'shell', 'submit', 'file-input', 'modal', 'helpers', 'forms']
-                    .map((name) => [name, resolve(import.meta.dirname, `resources/js/${name}.js`)])
-            ),
+            entry: { helpers: resolve(import.meta.dirname, 'resources/js/helpers.js') },
             formats: ['es'],
             fileName: (format, name) => `${name}.js`,
-            cssFileName: 'essentials',
         },
     },
 });

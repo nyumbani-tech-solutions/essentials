@@ -5,8 +5,12 @@
 
 @section('content')
     <x-docs::section id="what" title="What it is">
-        <p><code>nyumbani/dt-tables</code> renders DataTables from a table class and the <code>&lt;x-data-table&gt;</code> component. It is optional: choose it in <code>php artisan nyumbani:install</code>, or run <code>composer require nyumbani/dt-tables</code>. It has its own docs, because it needs only Laravel and can be used on its own.</p>
-        <x-docs::card title="Open the DtTables docs" href="{{ route('docs.page', ['package' => 'nyumbani-dt-tables']) }}">Installation, a quick start, inline, server-side and API tables, filters, and how to secure and speed them up.</x-docs::card>
+        <p><code>nyumbani/dt-tables</code> renders DataTables from a table class and the <code>&lt;x-data-table&gt;</code> component. It is optional: choose it in <code>php artisan nyumbani:install</code>, or run <code>composer require nyumbani/dt-tables</code>. It has its own docs, because it needs only Laravel and can be used on its own, with or without Essentials and the UI package.</p>
+        @if ($packages->has('nyumbani-dt-tables'))
+            <x-docs::card title="Open the DtTables docs" href="{{ route('docs.page', ['package' => 'nyumbani-dt-tables']) }}">Installation, a quick start, inline, server-side and API tables, filters, and how to secure and speed them up.</x-docs::card>
+        @else
+            <x-docs::callout type="note" title="Not installed">Install the package to read its own docs here: see its README, or the installation steps above.</x-docs::callout>
+        @endif
     </x-docs::section>
 
     <x-docs::section id="offers" title="What it gives you">
@@ -36,7 +40,7 @@
             </x-data-table>
             @endverbatim
         </x-docs::code>
-        <p>The package styles the table for Tailwind in a freshly installed app. The <a href="{{ $docs->url('data-layer') }}#data-tables">Models and data</a> page has the conventions for the query and the rows.</p>
+        <p>Essentials publishes <code>config/dt-tables.php</code> and leaves it on the package's default Bootstrap theme. In an app that also has the UI package, <code>php artisan ui:install</code> sets an untouched copy to the Tailwind theme with the Nyumbani button and input classes. The <a href="{{ $docs->url('data-layer') }}#data-tables">Models and data</a> page has the conventions for the query and the rows.</p>
     </x-docs::section>
 
     <x-docs::section id="agents" title="For AI agents">

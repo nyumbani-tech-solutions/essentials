@@ -36,6 +36,13 @@ class OptionalPackages
             'env' => [],
             'rules' => ['data-tables.md'],
         ],
+        'nyumbani/ui' => [
+            'label' => 'UI: layouts, sign-in pages, the modal and the theme',
+            'dev' => false,
+            'config' => ['ui-config' => 'ui.php'],
+            'env' => ['UI_DESCRIPTION', 'UI_THEME_COLOR'],
+            'rules' => ['views.md', 'js.md', 'livewire.md'],
+        ],
         'nyumbani/docs' => [
             'label' => 'Docs: local-only guides with examples that run (dev dependency)',
             'dev' => true,

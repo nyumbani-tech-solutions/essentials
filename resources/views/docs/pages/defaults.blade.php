@@ -12,7 +12,6 @@
             ['unwrapped_json_resources', 'API resources return their data without the data wrapper.'],
             ['debugbar', 'The debugbar is enabled locally when it is installed.'],
             ['context', 'The signed-in user, organization and request payload join every log entry of a web request.'],
-            ['error_pages', 'The package error pages replace the framework ones.'],
         ]" />
     </x-docs::section>
 

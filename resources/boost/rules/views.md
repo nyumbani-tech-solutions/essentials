@@ -9,21 +9,21 @@ paths:
 Views are grouped by audience: `admins/{pages,partials}`, `system-admins/{pages,partials}`, with shared `layouts` and `components`. Modal components live in `components/{audience}/modal`.
 
 ## Pages use the shared layout
-Signed-in pages `@extends('essentials::layouts.portal')`, and the authentication pages (sign-in, forgot password, reset password, all shipped by Essentials) `@extends('essentials::layouts.auth')`; both extend the common `essentials::layouts.app`. The auth layout is for those pages only: any other public page extends `essentials::layouts.app`. A portal page fills its sections: `title`, `sidebar`, `content` (drawn inside a light grey card with a soft shadow that the layout provides, so never wrap a page in an outer card of your own), plus optional `brand`, `navbar`, `user-menu` and `banner`, and `@push('actions')`. The page content section is always called `content`. The portal draws `portal.content` when the app layout defines it, and the page's `content` otherwise: an app layout may define `portal.content` to wrap every page (for example in a white card) and yield `content` inside it, and a page that must skip that wrapper fills another section the layout checks for, such as `content.plain`. The layout sends a guest to login as a safety net; routes are still protected with the `auth` middleware. While a user is impersonated, the layout shows a bar under the page header; its Leave button posts to the package's `essentials.impersonation.leave` route, which returns the user to their home route. Build the sidebar from `<x-essentials::nav-link>` and `<x-essentials::nav-group>` in the app's own partial, and name that partial once in the app layout with `@section('sidebar', 'partials.sidebar')`; the portal renders it, and throws a `LogicException` when the sidebar is missing or the view does not exist.
+Signed-in pages `@extends('nyumbani::layouts.portal')`, and the authentication pages (sign-in, forgot password, reset password, all shipped by the UI package, `nyumbani/ui`) `@extends('nyumbani::layouts.auth')`; both extend the common `nyumbani::layouts.app`. The auth layout is for those pages only: any other public page extends `nyumbani::layouts.app`. A portal page fills its sections: `title`, `sidebar`, `content` (drawn inside a light grey card with a soft shadow that the layout provides, so never wrap a page in an outer card of your own), plus optional `brand`, `navbar`, `user-menu` and `banner`, and `@push('actions')`. The page content section is always called `content`. The portal draws `portal.content` when the app layout defines it, and the page's `content` otherwise: an app layout may define `portal.content` to wrap every page (for example in a white card) and yield `content` inside it, and a page that must skip that wrapper fills another section the layout checks for, such as `content.plain`. The layout sends a guest to login as a safety net; routes are still protected with the `auth` middleware. While a user is impersonated, the layout shows a bar under the page header; its Leave button posts to the package's `essentials.impersonation.leave` route, which returns the user to their home route. Build the sidebar from `<x-nyumbani::nav-link>` and `<x-nyumbani::nav-group>` in the app's own partial, and name that partial once in the app layout with `@section('sidebar', 'partials.sidebar')`; the portal renders it, and throws a `LogicException` when the sidebar is missing or the view does not exist.
 
 ## Flash messages are toastr toasts
-The shared layout raises each flash message with toastr. The package's bundle sets toastr up, so the app installs nothing and does not write its own toast setup.
+The shared layout raises each flash message with toastr. The UI package's bundle sets toastr up, so the app installs nothing and does not write its own toast setup.
 
 ## The scripts come from the package
-Import every package script with one line: `import '../../vendor/nyumbani/essentials/resources/dist/essentials.js';`. Never import the files under `resources/js` from an app. Import the bundle before `Livewire.start()`. Livewire provides Alpine and its plugins, so register only your own Alpine plugins, on `alpine:init`.
+Import the UI scripts and the Essentials formatting helpers, one line each: `import '../../vendor/nyumbani/ui/resources/dist/ui.js';` and `import '../../vendor/nyumbani/essentials/resources/dist/helpers.js';`. Never import the files under `resources/js` from an app. Import both before `Livewire.start()`. Livewire provides Alpine and its plugins, so register only your own Alpine plugins, on `alpine:init`.
 
 The sidebar, drawer and user menu are run by the shell script, which uses no Alpine. The double-submit guard is the submit script.
 
 ## Formatting helpers and the file input come from the package
-The bundle defines `money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate` and `formatDateTime` on `window`, mirroring the PHP helpers, so do not write your own `$store.helpers`. For file uploads use `<x-essentials::file-input>`.
+The Essentials helpers script defines `money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate` and `formatDateTime` on `window`, mirroring the PHP helpers, so do not write your own `$store.helpers`. For file uploads use `<x-nyumbani::file-input>`.
 
 ## The modal comes from the package
-Use `<x-essentials::modal>` for every modal; do not build your own. It runs on the Alpine UI `x-dialog` directive, which the bundle registers. Open it with `x-model` (or `wire:model`), the `trigger` slot, or by name: give it `name="edit-customer"` and `$dispatch('open-modal', 'edit-customer')` (`close-modal` closes it; the button that dispatches must sit inside an Alpine scope, so give its wrapper a bare `x-data`), which is the way to open one from a row injected into a data table.
+Use `<x-nyumbani::modal>` for every modal; do not build your own. It runs on the Alpine UI `x-dialog` directive, which the UI bundle registers. Open it with `x-model` (or `wire:model`), the `trigger` slot, or by name: give it `name="edit-customer"` and `$dispatch('open-modal', 'edit-customer')` (`close-modal` closes it; the button that dispatches must sit inside an Alpine scope, so give its wrapper a bare `x-data`), which is the way to open one from a row injected into a data table.
 
 Props: `title`, `size` (`sm`, `md`, `lg`, `xl`, `full`; never a hand-written width), `position="right"` for a slide-over, `error-bag` (reopens it when that named bag has errors after a failed save), `:dismissable="false"` (ignores Escape and outside clicks), `src` (loads the body from that route the first time it opens), `confirm` (a review step before the form posts), `:close-button="false"` and `:show-title="false"`. Fill the `action` slot for the footer, which stays pinned while the body scrolls. On small screens it is a bottom sheet. It dispatches `modal-closed` on close.
 
@@ -31,13 +31,13 @@ Props: `title`, `size` (`sm`, `md`, `lg`, `xl`, `full`; never a hand-written wid
 The body of a modal is not padded by the component, so the content you put in it must be. Wrap everything in the default slot in an element with padding of at least `p-4`, and put the class on the form itself for a form (`<form class="p-4">`). A fragment loaded with `src` pads its own root element in the same way. No text, input, table or button may touch the edge of the panel. Only a deliberate full-bleed image or table may skip the padding. The `action` footer is padded by the component.
 
 ```blade
-<x-essentials::modal title="Edit customer" name="edit-customer">
+<x-nyumbani::modal title="Edit customer" name="edit-customer">
     <form method="POST" action="{{ route('customers.update', ['customer' => $customer]) }}" class="p-4">
         @csrf
         @method('PUT')
         ...
     </form>
-</x-essentials::modal>
+</x-nyumbani::modal>
 ```
 
 ## A confirm modal's review is a data-review block in the form
@@ -50,7 +50,7 @@ Name the modal's bag with `error-bag`, post the same name with `@bag('name')` in
 Avoid `@php` blocks in views. A component computes values in its class. A page, partial or layout, which has no class, gets its values from the controller (or a view composer for a shared partial). Use `@php` only when there is truly no other place, for example a one-off `@php($i = 0)` counter.
 
 ## Favicons come from the package
-The shared layout links the Nyumbani favicons, apple-touch icon and web manifest, served by the package. Do not add your own `<link rel="icon">` or favicon files to an app. The manifest takes the app's name and `essentials.branding.theme_color`.
+The shared layout links the Nyumbani favicons, apple-touch icon and web manifest, served by the package. Do not add your own `<link rel="icon">` or favicon files to an app. The manifest takes the app's name and `ui.branding.theme_color`.
 
 ## Import classes with @use
 Always import a class a view references with `@use('Vendor\Namespace\ClassName')` at the top of the file and use the short name. Never write a fully qualified class name inline in a view.
@@ -86,7 +86,7 @@ Every submit button is disabled and shows a spinner once its form is submitted, 
 Keep inline `x-data="{ ... }"` for trivial state only (a couple of keys). Register anything larger with `Alpine.data('name', () => ({ ... }))` inside `document.addEventListener('alpine:init', ...)` in a `@push('js')` block at the bottom of the same file, then use `x-data="name"`. Components are functions taking a `data` param with destructured defaults, use `init()`, `$watch()`, getters, and `x-on:` instead of `@`.
 
 ## Design tokens
-Import the shared theme from the package in the app's Tailwind css (`@import '../../vendor/nyumbani/essentials/resources/css/theme.css';`) and use its primary and secondary colour scales. Do not define your own palette. Every button is primary: use `.btn .btn-primary` from the shared theme (plus `.btn-sm` or `.btn-lg`), never `.btn-secondary` or raw colour utilities. Design mobile-first and meet WCAG AA.
+Import the shared theme from the package in the app's Tailwind css (`@import '../../vendor/nyumbani/ui/resources/css/theme.css';`) and use its primary and secondary colour scales. Do not define your own palette. Every button is primary: use `.btn .btn-primary` from the shared theme (plus `.btn-sm` or `.btn-lg`), never `.btn-secondary` or raw colour utilities. Design mobile-first and meet WCAG AA.
 
 ## 1.5 units between cards
 Cards sit 1.5 spacing units apart, never more. Space them with `gap-1.5` (or `gap-x-1.5` and `gap-y-1.5`), `m-1.5` (`mx-1.5`, `my-1.5`), `space-x-1.5` and `space-y-1.5`, or `p-1.5` (`px-1.5`, `py-1.5`) on the container, and do not use larger steps such as `gap-4` or `mb-4` between cards. Spacing inside a card, such as its padding and the gap between its fields, is separate and follows the design.
@@ -95,4 +95,4 @@ Cards sit 1.5 spacing units apart, never more. Space them with `gap-1.5` (or `ga
 Pass route parameters as a keyed array, never a bare model: `route('customers.show', ['customer' => $customer])`, not `route('customers.show', $customer)`. This applies in views, controllers, tests and anywhere else `route()` is called.
 
 ## Review a form before saving with the modal's confirm option
-When a form needs a review step before it posts, use `<x-essentials::modal confirm>` with a `review` slot and a submit in the `action` slot. Do not write hand-rolled two-step toggles with `x-show="confirm"`; they skip native validation or let Enter bypass the review.
+When a form needs a review step before it posts, use `<x-nyumbani::modal confirm>` with a `review` slot and a submit in the `action` slot. Do not write hand-rolled two-step toggles with `x-show="confirm"`; they skip native validation or let Enter bypass the review.

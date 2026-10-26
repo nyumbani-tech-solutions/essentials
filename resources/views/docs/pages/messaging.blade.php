@@ -6,7 +6,11 @@
 @section('content')
     <x-docs::section id="what" title="What it is">
         <p><code>nyumbani/messaging</code> sends SMS through Nyumbani Connect, so an app never talks to an SMS provider. It is optional, for apps that send SMS: choose it in <code>php artisan nyumbani:install</code>, or run <code>composer require nyumbani/messaging</code>. Nyumbani Connect itself, which receives the messages, does not use it. It has its own docs, because it needs only Laravel and can be used on its own.</p>
-        <x-docs::card title="Open the Messaging docs" href="{{ route('docs.page', ['package' => 'nyumbani-messaging']) }}">Installation, a walkthrough, handlers, the Messenger, gateways, and how to test and troubleshoot.</x-docs::card>
+        @if ($packages->has('nyumbani-messaging'))
+            <x-docs::card title="Open the Messaging docs" href="{{ route('docs.page', ['package' => 'nyumbani-messaging']) }}">Installation, a walkthrough, handlers, the Messenger, gateways, and how to test and troubleshoot.</x-docs::card>
+        @else
+            <x-docs::callout type="note" title="Not installed">Install the package to read its own docs here: see its README, or the installation steps above.</x-docs::callout>
+        @endif
     </x-docs::section>
 
     <x-docs::section id="offers" title="What it gives you">

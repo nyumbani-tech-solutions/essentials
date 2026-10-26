@@ -16,16 +16,12 @@
             ['currency', 'KES', 'The symbol money() and currency() use. Set with ESSENTIALS_CURRENCY.'],
             ['fortify.max_attempts', '5', 'Sign-in attempts per minute for each username and IP address.'],
             ['defaults.*', 'true', 'Switches for the app-wide defaults. See App defaults.'],
-            ['branding.description', 'null', 'The sentence under the app name on the sign-in page. Set with ESSENTIALS_DESCRIPTION.'],
-            ['branding.theme_color', '#d97706', 'The browser address bar and installed app colour. Set with ESSENTIALS_THEME_COLOR.'],
         ]" />
     </x-docs::section>
 
     <x-docs::section id="env" title="Environment variables">
         <x-docs::code lang="bash" title=".env">
             ESSENTIALS_CURRENCY=KES
-            ESSENTIALS_THEME_COLOR=#d97706
-            ESSENTIALS_DESCRIPTION="One sign-in for every internal app."
         </x-docs::code>
         <x-docs::callout type="warning" title="Keep secrets out of .env.example">
             Credentials, webhook URLs and keys live only in the git-ignored <code>.env</code>. <code>.env.example</code> lists every key with a blank value.

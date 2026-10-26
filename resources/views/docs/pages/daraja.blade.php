@@ -6,7 +6,11 @@
 @section('content')
     <x-docs::section id="what" title="What it is">
         <p><code>nyumbani/daraja</code> is a small client for Safaricom's Daraja API. It is optional: choose it in <code>php artisan nyumbani:install</code>, or run <code>composer require nyumbani/daraja</code>. It has its own docs, because it needs only Laravel and can be used on its own.</p>
-        <x-docs::card title="Open the Daraja docs" href="{{ route('docs.page', ['package' => 'nyumbani-daraja']) }}">Installation, a walkthrough of a first payment, every call, and the callbacks Safaricom sends.</x-docs::card>
+        @if ($packages->has('nyumbani-daraja'))
+            <x-docs::card title="Open the Daraja docs" href="{{ route('docs.page', ['package' => 'nyumbani-daraja']) }}">Installation, a walkthrough of a first payment, every call, and the callbacks Safaricom sends.</x-docs::card>
+        @else
+            <x-docs::callout type="note" title="Not installed">Install the package to read its own docs here: see its README, or the installation steps above.</x-docs::callout>
+        @endif
     </x-docs::section>
 
     <x-docs::section id="offers" title="What it gives you">

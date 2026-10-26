@@ -45,7 +45,7 @@
 
     <x-docs::section id="routes" title="The routes you can rely on">
         <x-docs::table :columns="['Route name', 'Purpose']" :rows="[
-            ['login', 'The sign-in page. The portal layout sends guests here and remembers where they were going.'],
+            ['login', 'The sign-in page. The portal layout of the UI package sends guests here and remembers where they were going.'],
             ['login.store', 'Where the sign-in form posts.'],
             ['logout', 'Where the Logout button posts.'],
             ['password.request, password.email', 'Ask for a reset link.'],
@@ -53,6 +53,19 @@
             ['essentials.impersonation.leave', 'Ends an impersonation.'],
         ]" />
         <p>Do not redefine them. To change what happens after sign-in or sign-out, override the Fortify response in your own <code>FortifyServiceProvider</code>, for example to send each role to its own area.</p>
+    </x-docs::section>
+
+    <x-docs::section id="views" title="Swapping the sign-in pages">
+        <p>Fortify renders its three pages through the <code>AuthViews</code> contract: sign-in, forgot password and reset password. Essentials binds its own pages by default. A theme, or your app, replaces them by binding its own implementation in a service provider. When nothing is bound, Fortify gets no views and the app supplies them.</p>
+        <x-docs::code title="app/Providers/AppServiceProvider.php">
+            use App\Views\BrandedAuthViews;
+            use Nyumbani\Essentials\Contracts\AuthViews;
+
+            public function register(): void
+            {
+                $this->app->singleton(AuthViews::class, BrandedAuthViews::class);
+            }
+        </x-docs::code>
     </x-docs::section>
 
     <x-docs::section id="username" title="Signing in with something other than e-mail">
@@ -63,7 +76,7 @@
     </x-docs::section>
 
     <x-docs::section id="impersonation" title="Impersonation">
-        <p>Support staff often need to see what a user sees. The package builds on <code>lab404/laravel-impersonate</code>: give the user model its trait and the portal layout does the rest.</p>
+        <p>Support staff often need to see what a user sees. The package builds on <code>lab404/laravel-impersonate</code>: give the user model its trait and the UI package's portal layout does the rest.</p>
         <x-docs::code title="app/Models/User.php">
             use Illuminate\Foundation\Auth\User as Authenticatable;
             use Lab404\Impersonate\Models\Impersonate;
@@ -88,7 +101,7 @@
                 return redirect()->to($user->homeRoute());
             }
         </x-docs::code>
-        <p>While impersonating, every portal page shows <em>Impersonating Jane Wanjiru</em> with a <strong>Leave</strong> button. It posts to <code>essentials.impersonation.leave</code>, signs you back in as yourself and sends you to your home route. Decide who may impersonate with a policy, as with any other action.</p>
+        <p>With the UI package, every portal page shows <em>Impersonating Jane Wanjiru</em> with a <strong>Leave</strong> button. It posts to <code>essentials.impersonation.leave</code>, signs you back in as yourself and sends you to your home route. Decide who may impersonate with a policy, as with any other action.</p>
             <x-docs::example title="What the bar looks like">
             <div class="flex h-9 items-center justify-center gap-x-4 bg-primary-dark px-4 text-center text-xs text-white">
                 <span>Impersonating <span class="font-semibold">Jane Wanjiru</span></span>
@@ -100,7 +113,6 @@
     <x-docs::section id="config" title="Configuration">
         <x-docs::table :columns="['Key', 'Default', 'What it does']" :rows="[
             ['essentials.fortify.max_attempts', '5', 'Sign-in attempts per minute for each username and IP address.'],
-            ['essentials.branding.description', 'null', 'The sentence under the app name on the sign-in page.'],
         ]" />
     </x-docs::section>
 @endsection

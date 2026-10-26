@@ -135,7 +135,7 @@
             $user->hasProfileImage();   // true once a profile-image upload exists
             $user->avatar;              // its url, or a generated avatar
         </x-docs::code>
-        <p>The <a href="{{ $docs->url('theme') }}#file-input">file input component</a> previews and replaces an upload in a form.</p>
+        <p>The <x-docs::package-link package="nyumbani-ui" page="theme" anchor="file-input">file input component</x-docs::package-link> previews and replaces an upload in a form.</p>
     </x-docs::section>
 
     <x-docs::section id="kenyans" title="Kenyan names and numbers for factories">

@@ -37,20 +37,5 @@ return [
         'unwrapped_json_resources' => true,
         'debugbar' => true,
         'context' => true,
-        'error_pages' => true,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Branding
-    |--------------------------------------------------------------------------
-    |
-    | The sentence shown under the app name on the sign-in page, and the colour
-    | browsers use for the address bar and the installed app.
-    |
-    */
-    'branding' => [
-        'description' => env('ESSENTIALS_DESCRIPTION'),
-        'theme_color' => env('ESSENTIALS_THEME_COLOR', '#d97706'),
     ],
 ];

@@ -1,7 +1,7 @@
 {
 	"name": "nyumbani/essentials",
 	"type": "library",
-	"description": "Opinionated helpers, services, UIs, packages, and AI skills and rules that define how every Nyumbani internal app looks and is structured.",
+	"description": "Opinionated, headless helpers, services, packages, and AI skills and rules that define how every Nyumbani internal app is structured. The look is the separate nyumbani/ui package.",
 	"homepage": "https://nyumbanitech.co.ke/",
 	"keywords": [
 		"laravel",
@@ -21,7 +21,6 @@
 		"php": "^8.3",
 		"lab404/laravel-impersonate": "^1.7",
 		"laravel/fortify": "^1.41",
-		"livewire/livewire": "^4.4",
 		"spatie/laravel-activitylog": "^5.1",
 		"spatie/laravel-permission": "^8.3"
 	},
@@ -34,6 +33,7 @@
 		"pestphp/pest-plugin-laravel": "^5.0"
 	},
 	"suggest": {
+		"nyumbani/ui": "The Nyumbani look: layouts, sign-in and error pages, the modal and the theme, chosen in php artisan nyumbani:install",
 		"nyumbani/daraja": "M-Pesa payments through Safaricom Daraja, chosen in php artisan nyumbani:install",
 		"nyumbani/messaging": "SMS sent through Nyumbani Connect, chosen in php artisan nyumbani:install",
 		"nyumbani/dt-tables": "Searchable, sortable data tables, chosen in php artisan nyumbani:install",

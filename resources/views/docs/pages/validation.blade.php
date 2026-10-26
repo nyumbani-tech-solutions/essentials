@@ -1,7 +1,7 @@
 @extends('docs::layout')
 
 @section('page', 'Validation')
-@section('lead', 'Rules for Kenyan numbers, a cast that cleans names, and error bags for forms in modals.')
+@section('lead', 'Rules for Kenyan numbers and a cast that cleans names.')
 
 @section('content')
     <x-docs::section id="form-requests" title="Use Form Requests">
@@ -60,6 +60,6 @@
     ]" />
 
     <x-docs::section id="error-bags" title="Error bags">
-        <p>When several forms share a page, each needs its own errors. See <a href="{{ $docs->url('error-bags') }}">Error bags</a> for the <code>@@bag</code> directive.</p>
+        <p>When several forms share a page, each needs its own errors. See <x-docs::package-link package="nyumbani-ui" page="error-bags">Error bags</x-docs::package-link> for the <code>@@bag</code> directive.</p>
     </x-docs::section>
 @endsection

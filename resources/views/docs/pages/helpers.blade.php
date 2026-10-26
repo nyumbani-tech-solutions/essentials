@@ -64,7 +64,7 @@
     </x-docs::section>
 
     <x-docs::section id="js" title="JavaScript helpers">
-        <p>The same names exist on <code>window</code> once <code>helpers.js</code> is loaded, and read the currency from the <code>data-currency</code> attribute the layout sets on <code>&lt;html&gt;</code>.</p>
+        <p>The same names exist on <code>window</code> once <code>helpers.js</code> is loaded, and read the currency from the <code>data-currency</code> attribute on <code>&lt;html&gt;</code>, which the UI package's layout sets from <code>essentials.currency</code>. An app without that layout sets the attribute itself.</p>
         <x-docs::code lang="js">
             money(1500);               // KES 1,500.00
             numeric(1200.5, 2);        // 1,200.50

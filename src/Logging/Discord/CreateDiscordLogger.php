@@ -39,10 +39,13 @@ class CreateDiscordLogger
 
         //  Trim long messages to fit Discord
         $maxLength = (int) ($config['max_length'] ?? 3500);
+
+        //  Truncate long messages
         $truncate = fn (LogRecord $record) => strlen($record->message) > $maxLength
             ? $record->with(message: str()->limit($record->message, $maxLength))
             : $record;
 
+        //  Return the logger
         return new Logger('discord', [$handler], [$truncate]);
     }
 }

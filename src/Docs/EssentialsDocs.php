@@ -12,7 +12,7 @@ use Nyumbani\Docs\Docs;
 class EssentialsDocs
 {
     /**
-     * Describe the docs of Essentials, which load the app's own styles and scripts because their examples run real components
+     * Describe the docs of Essentials
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
@@ -24,7 +24,6 @@ class EssentialsDocs
             ['title' => 'Getting started', 'pages' => [
                 'introduction' => 'Introduction',
                 'installation' => 'Installation',
-                'quick-start' => 'Quick start',
                 'configuration' => 'Configuration',
             ]],
             ['title' => 'Foundation', 'pages' => [
@@ -32,7 +31,6 @@ class EssentialsDocs
                 'helpers' => 'Helpers',
                 'period' => 'Period filter',
                 'validation' => 'Validation',
-                'error-bags' => 'Error bags',
                 'javascript' => 'JavaScript',
                 'logging' => 'Logging to Discord',
                 'messaging' => 'Messaging',
@@ -44,13 +42,6 @@ class EssentialsDocs
                 'permissions' => 'Roles and permissions',
                 'traits' => 'Traits',
             ]],
-            ['title' => 'Interface', 'pages' => [
-                'layouts' => 'Layouts',
-                'theme' => 'Theme and buttons',
-                'modal' => 'Modal',
-                'alerts-and-loader' => 'Alerts and loader',
-                'error-pages' => 'Error pages',
-            ]],
             ['title' => 'Conventions', 'pages' => [
                 'rules-and-skills' => 'Rules and skills',
                 'anatomy' => 'Anatomy of a feature',
@@ -58,10 +49,8 @@ class EssentialsDocs
                 'app-code' => 'Application code',
                 'http-layer' => 'HTTP layer',
                 'data-layer' => 'Models and data',
-                'view-layer' => 'Views and scripts',
             ]],
         ], 'essentials::docs.pages'))
-            ->withAppAssets('essentials::docs.head', 'essentials::docs.foot', ['data-currency' => config('essentials.currency')])
             ->demo('period', $demos->period(...))
             ->demo('money', $demos->money(...))
             ->demo('dates', $demos->dates(...))

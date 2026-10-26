@@ -94,13 +94,6 @@ class EssentialsServiceProvider extends ServiceProvider
             essentials_path('resources/stubs/permissions.json') => database_path('seeders/data/permissions.json'),
         ], 'essentials-permissions');
 
-        //  Publish the basic portal: a dashboard view, its layout and sidebar
-        $this->publishes([
-            essentials_path('resources/stubs/portal/views/admins/pages/dashboard.blade.php') => resource_path('views/admins/pages/dashboard.blade.php'),
-            essentials_path('resources/stubs/portal/views/layouts/app.blade.php') => resource_path('views/layouts/app.blade.php'),
-            essentials_path('resources/stubs/portal/views/admins/partials/sidebar.blade.php') => resource_path('views/admins/partials/sidebar.blade.php'),
-        ], 'essentials-portal');
-
         //  Register the Artisan commands
         if ($this->app->runningInConsole()) {
             $this->commands([InstallCommand::class, PermissionsCommand::class]);
