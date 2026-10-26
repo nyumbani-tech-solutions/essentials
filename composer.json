@@ -28,7 +28,7 @@
 		"laravel/boost": "^2.2",
 		"laravel/pail": "^1.2.5",
 		"laravel/pint": "^1.27",
-		"nyumbani/docs": "^1.1",
+		"nyumbani/docs": "^1.2",
 		"pestphp/pest": "^5.3",
 		"pestphp/pest-plugin-laravel": "^5.0"
 	},
