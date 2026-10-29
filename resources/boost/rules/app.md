@@ -115,7 +115,7 @@ Stateless utility functions with no dependencies (formatting, casting, paths) ar
 Helpers that format a value accept null or bad input and return it unchanged. They never throw, and date helpers return a string, not a `Carbon`.
 
 ## Period filters use the request macro
-Parse a report's period (a day, month, year or `from to to` range) with `request()->period('month')`, which returns the `from` and `to` dates. Do not parse the period input by hand.
+Parse a report's period (a day, month, year or a `from to to` range of days, months or years) with `request()->period('month')`, which returns the `from` and `to` dates. Do not parse the period input by hand. In an app with `nyumbani/ui`, the input that sends it is `<x-nyumbani::period-picker>` (see the nyumbani-period-picker skill).
 
 ## Copy a Carbon date before changing it
 Carbon dates are mutable, so `startOfDay()`, `addDay()` and every other modifier changes the instance it is called on. Call `->copy()` first whenever the original must stay as it was, such as when one date feeds two results (`$from->copy()->endOfMonth()`) or a date is stored on an object. Do not switch to `CarbonImmutable`.

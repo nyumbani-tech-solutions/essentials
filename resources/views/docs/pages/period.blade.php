@@ -18,14 +18,21 @@
             ['2026', 'The whole year.'],
             ['2026-03', 'The month.'],
             ['2026-03-14', 'The day.'],
-            ['2026-01-01 to 2026-03-31', 'A range, which may not end before it starts.'],
+            ['2026-01-01 to 2026-03-31', 'A range of days, which may not end before it starts.'],
+            ['2026-01 to 2026-03', 'A range of months: the first day of January to the last day of March.'],
+            ['2024 to 2026', 'A range of years: 1 January 2024 to 31 December 2026.'],
         ]" />
+        <p>Both ends of a range must be the same kind, so <code>2026-01 to 2026-03-31</code> is not a range and falls back to the default.</p>
         <p>The result has <code>date</code>, <code>year</code>, <code>month</code>, <code>from</code>, <code>to</code> and <code>formatted</code>. Anything it cannot read, including a date like 2026-02-31, falls back to the default period.</p>
 
         <x-docs::playground demo="period" title="Try a period" :fields="[
-            ['name' => 'period', 'label' => 'The period input', 'value' => '2026-03', 'placeholder' => 'e.g. 2026, 2026-03, 2026-03-14 or 2026-01-01 to 2026-03-31'],
+            ['name' => 'period', 'label' => 'The period input', 'value' => '2026-03', 'placeholder' => 'e.g. 2026, 2026-03, 2026-03-14, 2026-01 to 2026-03 or 2026-01-01 to 2026-03-31'],
             ['name' => 'default', 'label' => 'Default when the input is empty or invalid', 'type' => 'select', 'value' => 'month', 'options' => ['month' => 'month (the default)', 'day' => 'day', 'year' => 'year']],
         ]" />
+
+        <x-docs::callout type="info" title="The input that sends it">
+            In an app with <code>nyumbani/ui</code>, the filter input is <code>&lt;x-nyumbani::period-picker&gt;</code>. It writes exactly the strings above, for a day, month, year or a range of them, so the controller needs nothing extra. See the Period picker page of the UI docs.
+        </x-docs::callout>
 
         <h3>What you get back</h3>
         <p>The period is a <code>Fluent</code> object, so read it with property access. For <code>?period=2026-03</code> (run on any day):</p>
@@ -112,6 +119,7 @@
             ['2026-13', 'Not a real month, so the default period.'],
             ['2026-02-31', 'Not a real day, so the default period.'],
             ['2026-03-31 to 2026-03-01', 'Ends before it starts, so the default period.'],
+            ['2026-01 to 2026-03-31', 'The ends are different kinds, so the default period.'],
             ['last week', 'Not a supported format, so the default period.'],
             ['(missing or empty)', 'The default period.'],
         ]" />

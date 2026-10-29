@@ -55,6 +55,9 @@ The shared layout links the Nyumbani favicons, apple-touch icon and web manifest
 ## Import classes with @use
 Always import a class a view references with `@use('Vendor\Namespace\ClassName')` at the top of the file and use the short name. Never write a fully qualified class name inline in a view.
 
+## Date and period filters use the period picker
+Filter a report or list by a day, month, year or a range of them with `<x-nyumbani::period-picker type="...">` (`day`, `month`, `year`, `day-range`, `month-range` or `year-range`), and read it with `request()->period()`. Choose the type in advance; do not offer the user a choice between types, and do not build your own date filter or a pair of date inputs. Pass `:value="$period->formatted"` so the picker shows the period the server used. A plain date field in a form (a date of birth, a due date) is a normal date input, not the picker.
+
 ## Confirm with the browser's confirm()
 Ask for confirmation of a destructive action (deleting, voiding) with the native `confirm()` on the form or button: `onsubmit="return confirm('Delete this record?')"`. Do not build a confirmation modal or a custom confirm component for that. To review a form before it saves, use the modal's `confirm` option instead.
 
@@ -86,7 +89,7 @@ Required labels carry `aria-required="true"`. Forms never carry a hidden tenant 
 Every submit button is disabled and shows a spinner once its form is submitted, by the package's `submit.js`; do not add your own guard. Opt a button out with `data-allow-resubmit` only when something else runs its busy state (the package has none). Dispatch `reset-loading` on the form to restore a button after an AJAX submit. Destructive actions ask for confirmation, with `x-on:submit="if (! confirm('...')) $event.preventDefault()"` on delete forms. Never call `form.submit()`; use `requestSubmit()`, and never from inside a `submit` listener on the same form.
 
 ## Alpine
-Keep inline `x-data="{ ... }"` for trivial state only (a couple of keys). Register anything larger with `Alpine.data('name', () => ({ ... }))` inside `document.addEventListener('alpine:init', ...)` in a `@push('js')` block at the bottom of the same file, then use `x-data="name"`. Components are functions taking a `data` param with destructured defaults, use `init()`, `$watch()`, getters, and `x-on:` instead of `@`.
+Bind `style` as an object (`x-bind:style="{ top: '4px' }"`), never a string, on an element that also uses `x-show`: a string replaces the whole style attribute and undoes the `display: none` that `x-show` sets. Keep inline `x-data="{ ... }"` for trivial state only (a couple of keys). Register anything larger with `Alpine.data('name', () => ({ ... }))` inside `document.addEventListener('alpine:init', ...)` in a `@push('js')` block at the bottom of the same file, then use `x-data="name"`. Components are functions taking a `data` param with destructured defaults, use `init()`, `$watch()`, getters, and `x-on:` instead of `@`.
 
 ## Design tokens
 Import the shared theme from the package in the app's Tailwind css (`@import '../../vendor/nyumbani/ui/resources/css/theme.css';`) and use its primary and secondary colour scales. Do not define your own palette. Every button is primary: use `.btn .btn-primary` from the shared theme (plus `.btn-sm` or `.btn-lg`), never `.btn-secondary` or raw colour utilities. Design mobile-first and meet WCAG AA.

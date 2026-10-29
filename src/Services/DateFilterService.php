@@ -6,8 +6,8 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Fluent;
 
 /**
- * Parse a period filter (a day, month, year or range) into the dates a report is scoped to. Input that
- * is not a valid period falls back to the default period instead of failing.
+ * Parse a period filter (a day, month, year or a range of them) into the dates a report is scoped to. Input
+ * that is not a valid period falls back to the default period instead of failing.
  *
  * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
  */
@@ -52,28 +52,55 @@ class DateFilterService
     }
 
     /**
-     * Parse a date range (e.g. "2026-01-01 to 2026-03-31"), which must not end before it starts
+     * Parse a range of days, months or years (e.g. "2026-01-01 to 2026-03-31", "2026-01 to 2026-03" or "2024 to 2026"),
+     * whose two ends are the same kind and which must not end before it starts
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
     protected function fromRange(string $value): ?Fluent
     {
-        //  Split the range into its two dates
+        //  Split the range into its two ends
         $parts = explode(' to ', $value, 2);
 
-        //  Parse the first date
-        $from = $this->date($parts[0]);
+        //  Read each end as a day, month or year
+        $start = $this->end($parts[0]);
+        $finish = $this->end($parts[1] ?? '');
 
-        //  Parse the second date
-        $to = $this->date($parts[1] ?? '');
-
-        //  Reject a range that is incomplete or ends before it starts
-        if (! $from || ! $to || $to->lt($from)) {
+        //  Reject a range that is incomplete, mixes kinds or ends before it starts
+        if (! $start || ! $finish || $start['kind'] !== $finish['kind'] || $finish['to']->lt($start['from'])) {
             return null;
         }
 
         //  Build the period
-        return $this->make($from->copy()->startOfDay(), $to->copy()->endOfDay(), $value, hasYear: false, hasMonth: false);
+        return $this->make($start['from'], $finish['to'], $value, hasYear: false, hasMonth: false);
+    }
+
+    /**
+     * Read one end of a range as a day, month or year, giving its kind and the first and last moment it covers, or null for anything else
+     *
+     * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
+     */
+    protected function end(string $value): ?array
+    {
+        //  Trim the end
+        $value = trim($value);
+
+        //  A day covers itself
+        if ($day = $this->date($value)) {
+            return ['kind' => 'day', 'from' => $day->copy()->startOfDay(), 'to' => $day->copy()->endOfDay()];
+        }
+
+        //  A month covers its first to last day
+        if ($month = $this->month($value)) {
+            return ['kind' => 'month', 'from' => $month->copy()->startOfMonth(), 'to' => $month->copy()->endOfMonth()];
+        }
+
+        //  A year covers January to December
+        if ($year = $this->year($value)) {
+            return ['kind' => 'year', 'from' => $year->copy()->startOfYear(), 'to' => $year->copy()->endOfYear()];
+        }
+
+        return null;
     }
 
     /**
@@ -99,16 +126,13 @@ class DateFilterService
      */
     protected function fromMonth(string $value): ?Fluent
     {
-        //  Match the year and month, with the month between 1 and 12
-        if (! preg_match('/^(\d{4})-(\d{1,2})$/', $value, $matches) || ! checkdate((int) $matches[2], 1, (int) $matches[1])) {
-            return null;
-        }
-
-        //  Build the first day of the month
-        $date = Carbon::create((int) $matches[1], (int) $matches[2], 1);
+        //  Read the month
+        $date = $this->month($value);
 
         //  Build the period
-        return $this->make($date->copy()->startOfMonth(), $date->copy()->endOfMonth(), $value);
+        return $date
+            ? $this->make($date->copy()->startOfMonth(), $date->copy()->endOfMonth(), $value)
+            : null;
     }
 
     /**
@@ -118,16 +142,42 @@ class DateFilterService
      */
     protected function fromYear(string $value): ?Fluent
     {
-        //  Match a four digit year
-        if (! preg_match('/^\d{4}$/', $value)) {
+        //  Read the year
+        $date = $this->year($value);
+
+        //  Build the period
+        return $date
+            ? $this->make($date->copy()->startOfYear(), $date->copy()->endOfYear(), $value, hasMonth: false)
+            : null;
+    }
+
+    /**
+     * Parse a real month such as "2026-03" to its first day, or null for anything else (including "2026-13")
+     *
+     * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
+     */
+    protected function month(string $value): ?Carbon
+    {
+        //  Match the year and month, with the month between 1 and 12
+        if (! preg_match('/^(\d{4})-(\d{1,2})$/', $value, $matches) || ! checkdate((int) $matches[2], 1, (int) $matches[1])) {
             return null;
         }
 
-        //  Build the first day of the year
-        $date = Carbon::create((int) $value, 1, 1);
+        //  Build the first day of the month
+        return Carbon::create((int) $matches[1], (int) $matches[2], 1);
+    }
 
-        //  Build the period
-        return $this->make($date->copy()->startOfYear(), $date->copy()->endOfYear(), $value, hasMonth: false);
+    /**
+     * Parse a four digit year such as "2026" to its first day, or null for anything else
+     *
+     * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
+     */
+    protected function year(string $value): ?Carbon
+    {
+        //  Match a four digit year, and build its first day
+        return preg_match('/^\d{4}$/', $value)
+            ? Carbon::create((int) $value, 1, 1)
+            : null;
     }
 
     /**
