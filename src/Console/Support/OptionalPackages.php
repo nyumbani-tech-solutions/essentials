@@ -26,7 +26,7 @@ class OptionalPackages
             'label' => 'Messaging: SMS sent through Nyumbani Connect',
             'dev' => false,
             'config' => ['messaging-config' => 'messaging.php'],
-            'env' => ['NYUMBANI_CONNECT_BASE_URL', 'NYUMBANI_CONNECT_TOKEN', 'MESSAGING_SMS_ENABLED', 'MESSAGING_SMS_SENDER_ID'],
+            'env' => ['NYUMBANI_CONNECT_BASE_URL', 'NYUMBANI_CONNECT_TOKEN', 'MESSAGING_SMS_ENABLED', 'MESSAGING_SMS_SENDER_ID', 'MESSAGING_EMAIL_ENABLED', 'ZEPTOMAIL_API_TOKEN', 'ZEPTOMAIL_TEMPLATE_KEY'],
             'rules' => ['messaging.md'],
         ],
         'nyumbani/dt-tables' => [

@@ -9,7 +9,7 @@ paths:
 Declare `protected $fillable` with the exact assignable columns. Never use `$guarded`.
 
 ## Dual-key strategy
-Auto-increment `id` is the internal key; a unique `ulid` column is the public route key through `Nyumbani\Essentials\Traits\HasUlids` (not Laravel's built-in trait). Every model whose table has a `ulid` column uses it; pivot tables without one are exempt. Never read `$model->ulid` in views, controllers or requests; use `$model->getRouteKey()`.
+Auto-increment `id` is the internal key; a unique `ulid` column is the public route key through `Nyumbani\Essentials\Traits\HasUlids` (not Laravel's built-in trait). Every model whose table has a `ulid` column uses it; pivot tables without one are exempt. Never read `$model->ulid` in views, controllers or requests; use `$model->getRouteKey()`. Never add `ulid` to `$fillable`: the trait fills it on create.
 
 ## Document every property
 `$fillable`, `$casts`, `$timestamps` and any other declared property carry a docblock with a one-line description only, no `@var` tag.

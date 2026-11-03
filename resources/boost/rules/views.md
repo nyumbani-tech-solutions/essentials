@@ -58,6 +58,9 @@ Always import a class a view references with `@use('Vendor\Namespace\ClassName')
 ## Date and period filters use the period picker
 Filter a report or list by a day, month, year or a range of them with `<x-nyumbani::period-picker type="...">` (`day`, `month`, `year`, `day-range`, `month-range` or `year-range`), and read it with `request()->period()`. Choose the type in advance; do not offer the user a choice between types, and do not build your own date filter or a pair of date inputs. Pass `:value="$period->formatted"` so the picker shows the period the server used. A plain date field in a form (a date of birth, a due date) is a normal date input, not the picker.
 
+## An empty table offers the create action
+Whenever a table or data table has no rows, its empty state shows the button that creates an item of that table's model, so the user is never left at a dead end. Use the same button the page header uses: the button that opens the create modal (`$dispatch('open-modal', 'create-customer')`, or a `trigger` slot) when the app creates through a modal, or the link to the create page (`route('customers.create')`) when it creates on its own page. Style it `.btn .btn-primary`, put it under a short plain-English line such as "No customers yet", and show it only to a user who may create the model (`@can('create', Customer::class)`). The same applies to a list or card grid that stands in for a table. An empty result caused by a search or filter says nothing matched instead, and keeps the create button out of the way.
+
 ## Confirm with the browser's confirm()
 Ask for confirmation of a destructive action (deleting, voiding) with the native `confirm()` on the form or button: `onsubmit="return confirm('Delete this record?')"`. Do not build a confirmation modal or a custom confirm component for that. To review a form before it saves, use the modal's `confirm` option instead.
 

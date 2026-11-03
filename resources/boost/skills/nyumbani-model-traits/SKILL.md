@@ -21,7 +21,7 @@ Use these traits from `Nyumbani\Essentials\Traits` instead of writing your own. 
 | `HasKenyans` | Kenyan names and safe fake phone numbers for factories. |
 
 ## Ulids
-Migration: `$table->id(); $table->ulid()->unique();`. The trait fills `ulid` on create (unless set) and makes it the route key, so route model binding uses it. Read it with `$customer->getRouteKey()`, never `$customer->ulid`, and build URLs with the model: `route('customers.show', ['customer' => $customer])`.
+Migration: `$table->id(); $table->ulid()->unique();`. The trait fills `ulid` on create (unless set) and makes it the route key, so route model binding uses it. Never list `ulid` in `$fillable`. Read it with `$customer->getRouteKey()`, never `$customer->ulid`, and build URLs with the model: `route('customers.show', ['customer' => $customer])`.
 ```php
 use Illuminate\Database\Eloquent\Model;
 use Nyumbani\Essentials\Traits\HasUlids;
