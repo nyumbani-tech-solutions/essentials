@@ -14,6 +14,9 @@ Signed-in pages `@extends('nyumbani::layouts.portal')`, and the authentication p
 ## Flash messages are toastr toasts
 The shared layout raises each flash message with toastr. The UI package's bundle sets toastr up, so the app installs nothing and does not write its own toast setup.
 
+## Image previews use the bundled Fancybox
+The UI bundle includes Fancybox and its styles and binds every `[data-fancybox]` link, so the app does not install `@fancyapps/ui` or write its own binding. Preview an image or file by linking to it with `data-fancybox` and a `data-caption`; the file input component does this for a stored image already.
+
 ## The scripts come from the package
 Import the UI scripts and the Essentials formatting helpers, one line each: `import '../../vendor/nyumbani/ui/resources/dist/ui.js';` and `import '../../vendor/nyumbani/essentials/resources/dist/helpers.js';`. Never import the files under `resources/js` from an app. Import both before `Livewire.start()`. Livewire provides Alpine and its plugins, so register only your own Alpine plugins, on `alpine:init`.
 

@@ -6,7 +6,7 @@ paths:
 # Js
 
 ## Variables are camelCase
-Every JavaScript variable, constant, parameter and function is camelCase: `someExample`, never `some_example`. Keep snake_case only for keys that the server or another API dictates (a JSON field such as `first_name`, a form field name); a variable that holds one is still camelCase (`const firstName = data.first_name`). The PHP rule in `app.md` is the same.
+Name every JavaScript variable in camelCase: `someExample`, never `some_example`. The rule covers variables only. It does not rename attribute names, so leave JSON fields, object keys, form field names and computed fields exactly as they are (`const firstName = data.first_name`). The PHP rule in `app.md` is the same.
 
 ## Header comment for every function
 Every function, event listener and option object gets a `/** ... */` block comment above it with a one-line description, e.g. `/** Add a keydown event listener to the document */` laid out over three lines. The description says what it does, in a short phrase.

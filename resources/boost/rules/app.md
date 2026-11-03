@@ -46,7 +46,7 @@ Always `use` classes; never reference a fully-qualified class name inline.
 Use descriptive full names with no abbreviations. Boolean methods and properties start with `is`, `has`, `can` or `should`. Class members are ordered properties first, then methods.
 
 ## Variables are camelCase
-Every PHP variable, parameter and property is camelCase: `$someExample`, never `$some_example`. The only snake_case you keep is what something else dictates: database columns and the attributes that mirror them (`$user->first_name`), request and validation keys, and config keys. A local variable that holds such a value is still camelCase (`$firstName = $request->input('first_name')`). The JavaScript rule in `js.md` is the same.
+Name every PHP variable in camelCase: `$someExample`, never `$some_example`. The rule covers variables only. It does not rename attribute names, so leave database columns, model attributes, collection and array keys, computed fields, request and validation keys and config keys exactly as they are (`$firstName = $user->first_name`). The JavaScript rule in `js.md` is the same.
 
 ## Document every class property
 Every declared property gets a PHPDoc block with a one-line description only, no `@var` tag. Constructor-promoted properties are documented by the constructor's docblock.
