@@ -83,13 +83,13 @@ Blade view copy is written as plain English text, with no `__()` or `@lang()` wr
 Use `@date`, `@time`, `@datetime`, `@dateforhumans`, `@numeric`, `@currency`, `@percentage`, `@prettify`, `@bag`, `@money`, `@moneyinwords` and `@numberinwords` instead of raw `format()`, `date()` or `number_format()`. Never write a literal "KES" or "Ksh", even in placeholders (use `e.g. 1000`).
 
 ## Blade syntax
-Use `@class()` for conditional classes, `@selected` / `@checked` for form state, `:$var` shorthand when names match, self-closing tags for slot-less components, `@js()` to pass PHP data to Alpine, and `@push('js')` for inline scripts. Nest content one level deeper than the enclosing directive. Pluralize with `str()->plural()` and build links with `route()`.
+Use `@class()` for conditional classes, `@selected`, `@checked` and `@required` for form state (always these directives, never a ternary that echoes `selected`, `checked` or `required`), `:$var` shorthand when names match, self-closing tags for slot-less components, `@js()` to pass PHP data to Alpine, and `@push('js')` for inline scripts. Nest content one level deeper than the enclosing directive. Pluralize with `str()->plural()` and build links with `route()`.
 
 ## Every form input has a placeholder
 Every form input carries a `placeholder`, never just the label. It is one of three things: a prompt (`Enter your name here`), an example of text that would fit (`e.g. Jane Wanjiru`), or the rule for the input (`At least 8 characters`). Choose the one that helps most; do not repeat the label. The rule covers text, email, tel, password, number and search inputs and every `<textarea>`. A `<select>` gets a first empty option as its placeholder (`<option value="">Select a status</option>`). Checkboxes, radios, file, hidden, date, time and colour inputs have no placeholder to show and are exempt. Placeholders are text for people, so they are translated like any other copy, and they never name a currency (`e.g. 1000`).
 
 ## Forms
-Required labels carry `aria-required="true"`. Forms never carry a hidden tenant id input.
+Mark a required input with `@required($condition)`, never a hand-written `required` attribute or a ternary, and its label carries `aria-required="true"`. Forms never carry a hidden tenant id input.
 
 ## Form inputs fill their row
 By default a text input, select or textarea fills 100% of its form row. The theme gives every field `w-full`, so never add a width to a field to get that. A field is narrower only when the developer says so, and the width goes on the element around it, never on the field: a wrapper such as `w-48` or `max-w-xs`, or a grid or flex column (`sm:col-span-2`, `w-1/2`). The theme's `w-full` is important, so a `w-*` class on the field itself loses to it and does nothing. Put a short field on purpose (a year, a quantity, a code) in a narrower wrapper, and put a field that shares a row with a button or an icon in a `flex-1` wrapper.
