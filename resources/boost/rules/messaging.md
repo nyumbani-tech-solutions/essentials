@@ -11,6 +11,9 @@ Build the message with `message()` and finish with `->send($tags)`; choose chann
 ## One handler per message type
 Build each message in a class that extends `Nyumbani\Messaging\MessageHandler`, with its inputs in the constructor and the text in `handle()`. Do not assemble message text in controllers, models or jobs. A variant of one message is another protected method with no required arguments, chosen with `handler($handler, 'reminder')`.
 
+## Give every SMS a Connect category
+Set `->category('payment-receipt')` in the handler's `handle()`, so every use of the message type is filed together in Connect. Use short kebab-case keys of at most 100 characters (a longer one throws), and reuse the keys other Nyumbani apps already use, such as `invoice`, `payment-receipt`, `arrears-reminder` and `new-tenant`. The package sends the category exactly as given, so any prefix is your app's own rule.
+
 ## Start messages from the Messenger when a project can switch SMS off
 `Messenger::for($project)` (the project implements `MessageScope`) supplies the header, footer and sender ID, and answers `canSend()`. Check `canSend()` before building messages, and start each message with `$messenger->recipient($model)`. Use `Messenger::global()` only when there is no scope.
 
