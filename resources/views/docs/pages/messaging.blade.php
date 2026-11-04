@@ -17,7 +17,8 @@
         <x-docs::table :columns="['Piece', 'Use it to']" :rows="[
             ['Message', 'Build one SMS: recipient, salutation, body, header and footer.'],
             ['MessageHandler', 'Keep the wording of one kind of message in one class.'],
-            ['MessageProcessed', 'Hand the finished messages to the queue.'],
+            ['send()', 'Hand the finished message to the queue, on SMS, email or both.'],
+            ['MessageProcessed', 'The event send() dispatches, which you dispatch yourself to message many recipients at once.'],
             ['Messenger', 'Switch SMS off per project, and frame every message with its header, footer and sender.'],
             ['SendMessageJob', 'Deliver to Connect, rate limited and retried.'],
         ]" />
@@ -25,16 +26,11 @@
 
     <x-docs::section id="taste" title="A first taste">
         <x-docs::code>
-            use Nyumbani\Messaging\Events\MessageProcessed;
-            use Nyumbani\Messaging\Message;
-
-            $sms = Message::make()
+            message()
                 ->recipient($user)
                 ->salutation()
                 ->text('Your rent is due on Friday.')
-                ->toSMS();
-
-            MessageProcessed::dispatch(['sms' => [$sms]]);
+                ->send('rent');
         </x-docs::code>
         <p>The recipient is a model with a <code>phone_number</code>. A queue worker must be running, because nothing is sent until it picks the job up. The Messaging docs let you build an SMS and see exactly what Connect would receive.</p>
     </x-docs::section>

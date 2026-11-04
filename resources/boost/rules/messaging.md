@@ -6,7 +6,7 @@ paths:
 # Messaging
 
 ## Send through `nyumbani/messaging`, never a provider
-Dispatch `Nyumbani\Messaging\Events\MessageProcessed` with an `sms` and/or `email` payload. Do not call Connect, Bunicom, ZeptoMail or any provider with `Http` from an app, and do not try to choose or replace a provider: each channel's driver is fixed inside the package.
+Build the message with `message()` and finish with `->send($tags)`; choose channels with `subject()` (adds email) or `via([...])`. Dispatch `Nyumbani\Messaging\Events\MessageProcessed` with an `sms` and/or `email` payload only when you build the items yourself. To send to many recipients use `->sendTo($recipients, $tags)`, never a loop of `send()`. Do not call Connect, Bunicom, ZeptoMail or any provider with `Http` from an app, and do not try to choose or replace a provider: each channel's driver is fixed inside the package.
 
 ## One handler per message type
 Build each message in a class that extends `Nyumbani\Messaging\MessageHandler`, with its inputs in the constructor and the text in `handle()`. Do not assemble message text in controllers, models or jobs. A variant of one message is another protected method with no required arguments, chosen with `handler($handler, 'reminder')`.
