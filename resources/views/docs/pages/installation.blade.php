@@ -92,6 +92,17 @@
         <p>Run the installer once more: every item on its checklist that applies to the app should read <strong>done</strong>. With the UI package, open <code>/login</code> and sign in; without it, Fortify has no pages until your own views are bound (see <a href="{{ $docs->url('authentication') }}#views">Swapping the sign-in pages</a>).</p>
     </x-docs::section>
 
+    <x-docs::section id="other-projects" title="Using Essentials in a project that is not a Nyumbani app">
+        <p>Essentials is headless, so it needs no Nyumbani look: your own projects can require it and keep their own screens. Steps 1 to 4 above apply unchanged. Four things are different.</p>
+        <x-docs::table :columns="['Area', 'What to do']" :rows="[
+            ['Sign-in pages', 'Essentials ships none. With no AuthViews bound, the login, forgot-password and reset-password routes answer 404. Bind your own AuthViews in AppServiceProvider::register() and write the three pages (see Authentication). Your forms post to the Fortify routes login.store, password.email, password.update and logout.'],
+            ['Where users land', 'The user model must implement HasHomeRoute, because signing in redirects to its homeRoute(). Outside production a model without it throws a LogicException.'],
+            ['Currency', 'The money() and currency() helpers follow config(\'essentials.currency\'), which is KES until you set ESSENTIALS_CURRENCY in .env. Set it, and never write a currency in your own code.'],
+            ['App-wide defaults', 'Essentials switches on lazy-loading prevention, the destructive-command guard, unwrapped JSON resources, the debugbar and the log context. Turn off any your project does not want under defaults in config/essentials.php. The login throttle (fortify.max_attempts, 5 a minute for each email and IP) is there too.'],
+        ]" />
+        <p>The AI rules and skills the installer copies are written for Nyumbani apps. Without the UI package you get the PHP, config and data rules only, and the view, JavaScript and Livewire rules are left out. With the UI package, see <x-docs::package-link package="nyumbani-ui" page="installation" anchor="other-projects">Using the UI in a project that is not a Nyumbani app</x-docs::package-link> for the screens, the theme and which view rules relax.</p>
+    </x-docs::section>
+
     <x-docs::section id="checklist" title="The checklist">
         <p>The installer never edits your application code. When it finishes it prints what it found and what is left for you, with a progress bar. A done item stays quiet, a <strong>✗</strong> item is needed for Essentials to work, and a <strong>○</strong> item matters only if you use that feature. Under each open item is its fix.</p>
         <x-docs::code lang="text" title="Setup checklist">
