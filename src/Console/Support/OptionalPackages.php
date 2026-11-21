@@ -50,6 +50,13 @@ class OptionalPackages
             'env' => [],
             'rules' => [],
         ],
+        'fruitcake/laravel-debugbar' => [
+            'label' => 'Debugbar: the local debug toolbar (dev dependency)',
+            'dev' => true,
+            'config' => [],
+            'env' => [],
+            'rules' => [],
+        ],
     ];
 
     /**

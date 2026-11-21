@@ -707,7 +707,7 @@ PHP;
             return multiselect(
                 label: 'Which Nyumbani packages does this app use?',
                 options: OptionalPackages::labels(),
-                default: array_values(array_unique([...OptionalPackages::required(), 'nyumbani/docs'])),
+                default: array_values(array_unique([...OptionalPackages::required(), 'nyumbani/docs', 'fruitcake/laravel-debugbar'])),
                 hint: 'Space selects, enter confirms. Essentials is always installed.',
             );
         }
@@ -826,7 +826,11 @@ PHP;
             ->flatMap(fn (string $value) => explode(',', $value))
             ->map(fn (string $value) => trim($value))
             ->filter()
-            ->map(fn (string $value) => str_contains($value, '/') ? $value : "nyumbani/{$value}")
+            ->map(fn (string $value) => match (true) {
+                $value === 'debugbar' => 'fruitcake/laravel-debugbar',
+                str_contains($value, '/') => $value,
+                default => "nyumbani/{$value}",
+            })
             ->filter(fn (string $package) => array_key_exists($package, OptionalPackages::PACKAGES))
             ->values()
             ->all();

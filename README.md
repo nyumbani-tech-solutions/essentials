@@ -28,7 +28,7 @@ composer require nyumbani/essentials
 php artisan nyumbani:install
 ```
 
-It asks which optional packages the app uses (UI, Daraja, Messaging, Data tables, Docs), requires the ones you pick, copies the rules, publishes the config files and migrations, adds the missing keys to `.env.example`, the `discord` log channel and a starter `permissions.json`, optionally runs the migrations and syncs the roles and permissions, links storage, formats what it published with Pint, sets up Laravel Boost (requiring `laravel/boost --dev` first if it is missing), and ends with a checklist of what is left for you. When you pick UI it also runs `php artisan ui:install`. Essentials never touches `vite.config.js`, `app.css` or `app.js`.
+It asks which optional packages the app uses (UI, Daraja, Messaging, Data tables, Docs, Debugbar), requires the ones you pick, copies the rules, publishes the config files and migrations, adds the missing keys to `.env.example`, the `discord` log channel and a starter `permissions.json`, optionally runs the migrations and syncs the roles and permissions, links storage, formats what it published with Pint, sets up Laravel Boost (requiring `laravel/boost --dev` first if it is missing), and ends with a checklist of what is left for you. When you pick UI it also runs `php artisan ui:install`. Essentials never touches `vite.config.js`, `app.css` or `app.js`.
 
 3. Prepare the user model. The installer never edits application code, so add the contract and the traits yourself:
 
@@ -63,7 +63,7 @@ Without `nyumbani/ui`, Fortify has no sign-in pages until the app binds its own 
 | Option | Meaning |
 | --- | --- |
 | `--portal` | Passed to `ui:install`: set up the basic portal without asking. |
-| `--with=ui,dt-tables,docs` | Install the named optional packages without the checkbox. `docs` is installed with `composer require --dev`. |
+| `--with=ui,dt-tables,docs` | Install the named optional packages without the checkbox. `docs` and `debugbar` are installed with `composer require --dev`. |
 | `--without=messaging` | Leave the named packages out without the checkbox. |
 | `--remove` | Remove the packages left out that the app already requires, without asking. |
 | `-n`, `--no-interaction` | Never ask; manage only the optional packages the app already requires. |

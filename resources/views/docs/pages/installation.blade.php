@@ -27,6 +27,7 @@
             ['nyumbani/messaging', 'SMS sent through Nyumbani Connect.'],
             ['nyumbani/dt-tables', 'Searchable, sortable data tables.'],
             ['nyumbani/docs', 'The guides you are reading, served only locally. Always a dev dependency.'],
+            ['fruitcake/laravel-debugbar', 'The debug toolbar essentials switches on locally. Always a dev dependency; --with=debugbar names it.'],
         ]" />
     </x-docs::section>
 
@@ -120,6 +121,7 @@
               ✓ Boost is set up with the Nyumbani packages
               ✓ discord log channel
               ○ Docs package is a dev dependency (optional)
+              ○ Debugbar is a dev dependency (optional)
                 → Run composer require --dev nyumbani/docs, which also moves it out of require if it sits there.
               ○ Daraja credentials set (optional)
                 → Set DARAJA_SHORT_CODE, DARAJA_CONSUMER_KEY, DARAJA_CONSUMER_SECRET and DARAJA_PASS_KEY in .env.
@@ -135,6 +137,7 @@
             ['Boost is set up with the Nyumbani packages', 'Always', 'Run composer require for the packages you chose, then the installer again: Boost reads only packages the app requires itself.'],
             ['discord log channel', 'Always, optional', 'Add a discord channel to config/logging.php, which the installer does when the file allows.'],
             ['Docs package is a dev dependency', 'When you chose Docs, optional', 'Run composer require --dev nyumbani/docs.'],
+            ['Debugbar is a dev dependency', 'When you chose Debugbar, optional', 'Run composer require --dev fruitcake/laravel-debugbar.'],
             ['Daraja credentials set', 'When you chose Daraja, optional', 'Set the DARAJA_* keys in .env.'],
             ['Nyumbani Connect settings set', 'When you chose Messaging, optional', 'Set NYUMBANI_CONNECT_BASE_URL and NYUMBANI_CONNECT_TOKEN in .env.'],
         ]" />
