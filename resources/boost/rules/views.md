@@ -46,7 +46,7 @@ The body of a modal is not padded by the component, so the content you put in it
 ```
 
 ## A confirm modal's review is a data-review block in the form
-Write the review of a `confirm` modal as a `<div data-review>` inside the form, never as `<x-slot:review>`. The modal copies the block into its review step, so one form partial serves a modal on the page and a form loaded with `src`, and the review is written once. The block reads `data` keyed by field name.
+Write the review of a `confirm` modal as a `<div data-review>` inside the form; there is no `<x-slot:review>`. The modal copies the block into its review step, so one form partial serves a modal on the page and a form loaded with `src`, and the review is written once. The block reads `data` keyed by field name.
 
 ## Reopen a modal after a failed save with an error bag
 Name the modal's bag with `error-bag`, post the same name with `@bag('name')` inside its form, read errors with `@error('field', 'name')` (a plain `@error('field')` reads only the default bag), and refill a field from `old()` only when `$errors->hasBag('name')`. Validation needs nothing special. Do not hand-roll a reopen flag.
