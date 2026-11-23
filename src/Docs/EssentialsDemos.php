@@ -142,7 +142,7 @@ class EssentialsDemos
     }
 
     /**
-     * Generate the Kenyan name and number the HasKenyans trait gives a factory
+     * Generate the Kenyan name, number and M-Pesa code the HasKenyans trait gives a factory
      *
      * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
      */
@@ -160,6 +160,7 @@ class EssentialsDemos
         return [
             Docs::row('generateKenyanName()', $factory->generateKenyanName()),
             Docs::row('generateKenyanPhoneNumber()', $phone),
+            Docs::row('generateMpesaTransactionCode()', $factory->generateMpesaTransactionCode()),
             Docs::row('Length', strlen($phone).' digits (a real number has 12)'),
             Docs::row('Passes KenyanNumberValid', $this->passes(new KenyanNumberValid, $phone) ? 'Yes' : 'No: on purpose, so it never reaches a real person', false),
         ];

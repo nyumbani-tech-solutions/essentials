@@ -13,7 +13,7 @@
             ['HasEnumElements', 'label(), lowerLabel() and random() for backed enums.'],
             ['HasUploads', 'File behaviour for the app Upload model: URL, size, extension and image check.'],
             ['HasProfileImage', 'A single replaceable profile image with an avatar fallback.'],
-            ['HasKenyans', 'Realistic Kenyan names and safe fake phone numbers for factories.'],
+            ['HasKenyans', 'Realistic Kenyan names, safe fake phone numbers and M-Pesa transaction codes for factories.'],
             ['HasDefaultPermissions, HasRoleList', 'Roles and default permissions from permissions.json. Not Spatie\\Permission\\Traits\\HasPermissions, which has neither.'],
         ]" />
             <x-docs::playground demo="model-traits" title="Try the model and enum traits" :fields="[
@@ -138,7 +138,7 @@
         <p>The <x-docs::package-link package="nyumbani-ui" page="theme" anchor="file-input">file input component</x-docs::package-link> previews and replaces an upload in a form.</p>
     </x-docs::section>
 
-    <x-docs::section id="kenyans" title="Kenyan names and numbers for factories">
+    <x-docs::section id="kenyans" title="Kenyan names, numbers and M-Pesa codes for factories">
         <x-docs::code>
             use Illuminate\Database\Eloquent\Factories\Factory;
             use Nyumbani\Essentials\Traits\HasKenyans;
@@ -152,11 +152,20 @@
                     return [
                         'name' => $this->generateKenyanName(),                 // Wanjiru Otieno
                         'phone_number' => $this->generateKenyanPhoneNumber(),  // 25471234567890
+                        'reference' => $this->generateMpesaTransactionCode(),  // UKN5A3ZVN3
                     ];
                 }
             }
         </x-docs::code>
         <p>The generated number is one digit too long on purpose, so a seeded or test record can never reach a real person by SMS. It also means it fails <code>KenyanNumberValid</code>.</p>
+        <p><code>generateMpesaTransactionCode()</code> returns a code shaped like a Safaricom receipt: a letter for the year (<code>Q</code> is 2022, <code>R</code> is 2023, wrapping after <code>Z</code>), a letter for the month (<code>A</code> is January), a character for the day (<code>1</code> to <code>9</code>, then <code>A</code> is the 10th up to <code>V</code> for the 31st) and a seven character base-36 counter.</p>
+        <p>The counter is what makes it realistic. Safaricom's is one counter shared by every M-Pesa transaction, so codes rise with time and carry on across days. The service behind the method starts from one real code (<code>UKN5A3ZVN3</code>, 23 November 2026 at 9am) and follows an estimated traffic curve from there, about 2.5 transactions a second, busy in the evening and quiet at night. A few steps of jitter keep two codes made in the same second apart. It uses today by default; pass a date to back-date a seeded payment so its code sorts with its <code>paid_at</code>. The counter is an estimate that drifts from the real one the further the date is from that code, and these codes look real, so never send one to Safaricom or show it to a customer as a receipt.</p>
+        <x-docs::code>
+            use Illuminate\Support\Carbon;
+
+            $this->generateMpesaTransactionCode();                               // UKN5A3ZVN3 (23 Nov 2026, 9am)
+            $this->generateMpesaTransactionCode(Carbon::parse('2025-03-10'));    // TCA57W36PF
+        </x-docs::code>
             <x-docs::playground demo="kenyans" title="Generate a name and number" :fields="[]" />
     </x-docs::section>
 @endsection

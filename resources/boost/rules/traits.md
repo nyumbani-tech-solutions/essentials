@@ -17,7 +17,7 @@ Model mixins are `HasX` traits using `bootHasX()` / `initializeHasX()` hooks. `H
 - `HasEnumElements`: `label()` reads the case name, so name cases in `UPPER_SNAKE_CASE` (`PARTIALLY_PAID` gives "Partially Paid", `PartiallyPaid` gives "Partiallypaid").
 - `HasProfileImage`: the model's `uploads()` is a `morphMany(Upload::class, 'owner')`, and the Upload table needs `type` (`profile-image`), `path`, `disk` and `size`.
 - `HasMoney`: `money()` is absolute; use `relativeMoney()` to keep a sign.
-- `HasKenyans`: factory use only; its phone number is one digit too long on purpose.
+- `HasKenyans`: factory and seeder use only; its phone number is one digit too long on purpose, and `generateMpesaTransactionCode($date)` takes the payment date, so a back-dated payment gets a code that sorts with it. Do not write a local M-Pesa code generator.
 
 ## Events only for message dispatch
 Reserve event dispatch for decoupling notification delivery (SMS / email) from the workflow that triggers it. Call services and models directly for all other business logic. No model observers or `booted()` closures for business events.

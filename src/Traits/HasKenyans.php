@@ -2,7 +2,9 @@
 
 namespace Nyumbani\Essentials\Traits;
 
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\File;
+use Nyumbani\Essentials\Services\MpesaTransactionCodeService;
 
 trait HasKenyans
 {
@@ -40,5 +42,15 @@ trait HasKenyans
             .($pre == 7 ? fake()->randomElement(range(0, 9)) : fake()->randomElement(range(0, 1)))
             .fake()->randomElement(range(0, 9))
             .implode(fake()->randomElements(range(0, 9), 7));
+    }
+
+    /**
+     * Generate an M-Pesa transaction code for a date, today by default, with a counter that rises with time like Safaricom's
+     *
+     * @author Alvin G. Kaburu <geekaburu@nyumbanitech.co.ke>
+     */
+    public function generateMpesaTransactionCode(?CarbonInterface $date = null): string
+    {
+        return MpesaTransactionCodeService::make()->generate($date);
     }
 }

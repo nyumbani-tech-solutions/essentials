@@ -1,6 +1,6 @@
 ---
 name: nyumbani-model-traits
-description: "Invoke when writing or changing an Eloquent model, an enum, an Upload model or a factory in a Nyumbani app: ulid route keys (HasUlids), HasMorphRouteKey, year-scoped numbers (HasNumberIdentifiers), money on a model (HasMoney), enum labels (HasEnumElements), uploads and profile images (HasUploads, HasProfileImage), or Kenyan fake names and numbers (HasKenyans). Skip for roles and permissions traits (see nyumbani-permissions)."
+description: "Invoke when writing or changing an Eloquent model, an enum, an Upload model or a factory in a Nyumbani app: ulid route keys (HasUlids), HasMorphRouteKey, year-scoped numbers (HasNumberIdentifiers), money on a model (HasMoney), enum labels (HasEnumElements), uploads and profile images (HasUploads, HasProfileImage), or Kenyan fake names, numbers and M-Pesa transaction codes (HasKenyans). Skip for roles and permissions traits (see nyumbani-permissions)."
 metadata:
   author: nyumbani
 ---
@@ -18,7 +18,7 @@ Use these traits from `Nyumbani\Essentials\Traits` instead of writing your own. 
 | `HasEnumElements` | `label()`, `lowerLabel()` and `random()` for backed enums. |
 | `HasUploads` | File behaviour for the app's `Upload` model. |
 | `HasProfileImage` | A replaceable profile image with an avatar fallback. |
-| `HasKenyans` | Kenyan names and safe fake phone numbers for factories. |
+| `HasKenyans` | Kenyan names, safe fake phone numbers and M-Pesa transaction codes for factories and seeders. |
 
 ## Ulids
 Migration: `$table->id(); $table->ulid()->unique();`. The trait fills `ulid` on create (unless set) and makes it the route key, so route model binding uses it. Never list `ulid` in `$fillable`. Read it with `$customer->getRouteKey()`, never `$customer->ulid`, and build URLs with the model: `route('customers.show', ['customer' => $customer])`.
@@ -111,8 +111,19 @@ class CustomerFactory extends Factory
         return [
             'name' => $this->generateKenyanName(),
             'phone_number' => $this->generateKenyanPhoneNumber(),
+            'reference' => $this->generateMpesaTransactionCode(),
         ];
     }
 }
 ```
 The fake number is one digit too long on purpose, so a seeded or test record can never SMS a real person. It therefore fails `KenyanNumberValid` (see nyumbani-validation).
+
+### M-Pesa transaction codes
+`generateMpesaTransactionCode()` gives a ten-character code shaped like a Safaricom receipt: a year letter (`Q` is 2022, `R` 2023, wrapping after `Z`), a month letter (`A` January to `L` December), a day character (`1` to `9`, then `A` the 10th to `V` the 31st) and a seven-character base-36 counter. Dates are read in Nairobi time. Safaricom's counter is global, so real codes rise with time and carry on across days; this one does the same. `MpesaTransactionCodeService` starts from one real code (`UKN5A3ZVN3`, 23 Nov 2026 9am) and follows an estimated traffic curve of about 2.5 transactions a second (busy evenings, quiet nights), plus a few steps of jitter. Pass a Carbon date to back-date a seeded payment so the code sorts with its `paid_at`; it uses now by default. It is a faker, so the counter is only an estimate that drifts the further the date is from the anchor. The codes look real, so use them for a reference or receipt column only: never send one to Safaricom or fake a callback with one (see nyumbani-daraja-webhooks), and never show one to a customer as a real receipt.
+```php
+use Illuminate\Support\Carbon;
+
+$this->generateMpesaTransactionCode();                             // UKN5A3ZVN3 for 9am on 23 Nov 2026
+$this->generateMpesaTransactionCode(Carbon::parse('2025-03-10'));  // TCA57W36PF
+```
+Outside a factory, put the trait on a seeder or service class; it needs no model.
