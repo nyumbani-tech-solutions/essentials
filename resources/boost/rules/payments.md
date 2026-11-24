@@ -7,7 +7,7 @@ paths:
 # Payments
 
 ## Take M-Pesa on screen through `StkPushManager` and the payment prompt
-Prompt the payer with `Nyumbani\Daraja\StkPushManager::initiate()` and show the result with `<x-nyumbani::payment-prompt>`. Do not call `Daraja::stkPush()` for a payer who is waiting on a screen, do not build your own waiting or failure screen, and do not poll for the result: the prompt follows the push over Reverb. Only a paybill works, since a till is refused and the manual instructions are paybill instructions.
+Prompt the payer with `Nyumbani\Daraja\StkPushManager::initiate()` and show the result with `<x-nyumbani::payment-prompt>`. Do not call `Daraja::stkPush()` for a payer who is waiting on a screen, do not build your own waiting or failure screen, and do not write your own polling or listener: the prompt follows the push over Reverb, or by polling the check route with `mode="poll"` when the app has no websocket server. Only a paybill works, since a till is refused and the manual instructions are paybill instructions.
 
 ## Inject the manager, there is no facade
 Take `StkPushManager` through the constructor or the method. Register the "I have paid" resolver once, in a provider's `boot()`, with the static `StkPushManager::resolvePaymentUsing(fn (array $attempt) => ...)`, which works like registering a macro. Build the `ShortCode` where the app keeps its credentials (config, a binding or the database), never in the package config.
