@@ -52,7 +52,7 @@ Write the review of a `confirm` modal as a `<div data-review>` inside the form; 
 Name the modal's bag with `error-bag`, post the same name with `@bag('name')` inside its form, read errors with `@error('field', 'name')` (a plain `@error('field')` reads only the default bag), and refill a field from `old()` only when `$errors->hasBag('name')`. Validation needs nothing special. Do not hand-roll a reopen flag.
 
 ## No @php in views
-Avoid `@php` blocks in views. A component computes values in its class. A page, partial or layout, which has no class, gets its values from the controller (or a view composer for a shared partial). Use `@php` only when there is truly no other place, for example a one-off `@php($i = 0)` counter.
+Avoid multi-line `@php` blocks in views. A one-line `@php($value = ...)` is fine. A component computes values in its class. A page, partial or layout, which has no class, gets its values from the controller (or a view composer for a shared partial). Use a multi-line `@php` only when there is truly no other place.
 
 ## Favicons come from the package
 The shared layout links the Nyumbani favicons, apple-touch icon and web manifest, served by the package. Do not add your own `<link rel="icon">` or favicon files to an app. The manifest takes the app's name and `ui.branding.theme_color`.
@@ -76,7 +76,7 @@ Login, forgot-password and reset-password are the same in every Nyumbani app and
 Build reusable markup as anonymous `<x-*>` components with `@props()`, as long as the component only prints what it is given. A component that has to work something out (a class list, a width from a size, a default from the session) is a class-based component in `app/View/Components` (`Nyumbani\Essentials\Views\Components` in the package) that computes it in the constructor or a method. Reserve `@include` for layout glue (sidebar, navbar, alerts). A component that needs a short script carries it at the bottom of its file in `@pushOnce('js')`, so it works wherever it is used. A component with a long script keeps it in a file in `resources/js`, registered with `Alpine.data` inside `alpine:init`, which the app imports once.
 
 ## No inline PHP
-Never write `@php ... @endphp` blocks to compute data. Move it to the controller, a view composer (registered in `ViewServiceProvider`), or the owning DataTable class. Reading `$errors` or `old()` inline is fine. Never inline a fully-qualified class name; add `@use('Vendor\Class')` at the top of the file.
+Never write multi-line `@php ... @endphp` blocks to compute data; a one-line `@php(...)` is allowed. Move it to the controller, a view composer (registered in `ViewServiceProvider`), or the owning DataTable class. Reading `$errors` or `old()` inline is fine. Never inline a fully-qualified class name; add `@use('Vendor\Class')` at the top of the file.
 
 ## Plain English copy
 Blade view copy is written as plain English text, with no `__()` or `@lang()` wrapping. Only flash messages go through the `alerts.*` translation keys.

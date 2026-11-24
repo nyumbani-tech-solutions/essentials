@@ -15,7 +15,7 @@ Controllers are plain classes grouped by resource, with custom action methods (e
 Call `Gate::authorize('ability', $model)` at the top of each action. Never use `$this->authorize()`, `->can()` or route-level `can:` middleware. Blade uses `@can` only for conditional UI.
 
 ## Validate via Form Requests
-All input validation uses Form Request classes type-hinted in the method signature. Never use inline `$request->validate()` or `Validator::make()`. Read data with `$request->safe()->field` or `->validated()`, not `input()`. Typed getters are only for boolean, date and enum input (see the typed accessors rule).
+All input validation uses Form Request classes type-hinted in the method signature. Never use inline `$request->validate()` or `Validator::make()`. Read data with `$request->safe()->field`, `->validated()` or `$request->input('field')`. Typed getters (`boolean()`, `date()`, `enum()`, `string()`, `integer()`) are all fine (see the typed accessors rule).
 
 ## Thin controllers delegate to model methods
 Keep controllers thin: authorize with `Gate::authorize`, extract the validated data, then call an expressive method on the relevant model (e.g. `$customer->createBid()`, `$invoice->isFullyPaid()`) to do the actual business logic. Do not write it inline in the action. There is no repository or query-object layer; query Eloquent directly. Use `app/Services` only for read-side aggregation (e.g. dashboard data), injected through method injection.
@@ -57,5 +57,5 @@ Convert service-layer arrays with `fluent($array)` before passing them to views,
 ## Name the parameters in route()
 Pass route parameters as a keyed array, never a bare model: `route('customers.show', ['customer' => $customer])`, not `route('customers.show', $customer)`. This applies in views, controllers, tests and anywhere else `route()` is called.
 
-## Typed accessors only for boolean, date and enum input
-Read boolean, date and enum request input with `->boolean()`, `->date()` and `->enum()`. Use plain property or array access for strings and numbers, not `->string()` or `->integer()`.
+## Typed accessors
+Read boolean, date and enum request input with `->boolean()`, `->date()` and `->enum()`. For strings and numbers, plain property access, `->input('field')`, `->string()` and `->integer()` are all fine.

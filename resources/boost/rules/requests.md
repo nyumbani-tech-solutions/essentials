@@ -18,8 +18,8 @@ $unique = Rule::unique(Customer::class)->ignore($this->route('customer'));
 return ['email' => ['required', 'email', $unique]];
 ```
 
-## Messages and attributes live on the request
-Define `messages()` and `attributes()` on the Form Request, never in lang files. Any wildcard rule (e.g. `items.*.quantity`) needs a matching `attributes()` entry. The same applies to inline `validateWithBag()` calls, which take the attributes as the fourth argument.
+## Messages and attributes live on the request, when needed
+A Form Request does not need `messages()` or `attributes()`: add them when a field needs a friendlier name or message than Laravel's own, and put them on the request, never in lang files. Any wildcard rule (e.g. `items.*.quantity`) that gets an error name needs a matching `attributes()` entry. The same applies to inline `validateWithBag()` calls, which take the attributes as the fourth argument.
 
 ## Named error bags
 A form that must keep its errors apart from other forms on the page, such as a modal or one form per row, posts `@bag($name)`, which prints Laravel's own `_error_bag` input. Nothing is needed on the Form Request. Do not read a `_bag` field in `prepareForValidation()` and do not add a trait or a `failedValidation()` override for it.
@@ -31,10 +31,10 @@ Pass the model class (`Rule::unique(User::class)`), never a table name. Assign e
 The tenant comes from the signed-in user in the controller, so a Form Request has no `organization_id` rule or message. Foreign keys to tenant-owned records use `Rule::exists(Model::class, 'id')` scoped to the current tenant with `->where('organization_id', $tenant->id)`, so a user cannot reference another tenant's record.
 
 ## Retrieve validated input
-Use `$request->safe()->field` (or `$this->field` inside the request's own methods), never `$request->input()`. Typed getters are only for boolean, date and enum input (see the typed accessors rule).
+Use `$request->safe()->field` (or `$this->field` inside the request's own methods). `$request->input('field')` is fine as well. Typed getters (`boolean()`, `date()`, `enum()`, `string()`, `integer()`) are all fine (see the typed accessors rule).
 
 ## No empty authorize()
 Do not define an `authorize()` that just returns `true`.
 
-## Typed accessors only for boolean, date and enum input
-Read boolean, date and enum request input with `->boolean()`, `->date()` and `->enum()`. Use plain property or array access for strings and numbers, not `->string()` or `->integer()`.
+## Typed accessors
+Read boolean, date and enum request input with `->boolean()`, `->date()` and `->enum()`. For strings and numbers, plain property access, `->input('field')`, `->string()` and `->integer()` are all fine.

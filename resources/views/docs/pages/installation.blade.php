@@ -123,8 +123,6 @@
               ○ Docs package is a dev dependency (optional)
               ○ Debugbar is a dev dependency (optional)
                 → Run composer require --dev nyumbani/docs, which also moves it out of require if it sits there.
-              ○ Daraja credentials set (optional)
-                → Set DARAJA_SHORT_CODE, DARAJA_CONSUMER_KEY, DARAJA_CONSUMER_SECRET and DARAJA_PASS_KEY in .env.
               ○ Nyumbani Connect settings set (optional)
                 → Set NYUMBANI_CONNECT_BASE_URL and NYUMBANI_CONNECT_TOKEN in .env.
         </x-docs::code>
@@ -138,7 +136,6 @@
             ['discord log channel', 'Always, optional', 'Add a discord channel to config/logging.php, which the installer does when the file allows.'],
             ['Docs package is a dev dependency', 'When you chose Docs, optional', 'Run composer require --dev nyumbani/docs.'],
             ['Debugbar is a dev dependency', 'When you chose Debugbar, optional', 'Run composer require --dev fruitcake/laravel-debugbar.'],
-            ['Daraja credentials set', 'When you chose Daraja, optional', 'Set the DARAJA_* keys in .env.'],
             ['Nyumbani Connect settings set', 'When you chose Messaging, optional', 'Set NYUMBANI_CONNECT_BASE_URL and NYUMBANI_CONNECT_TOKEN in .env.'],
         ]" />
         <p>Fix an item and run the command again to see it turn to done. The theme, scripts, Livewire and portal items belong to the UI package and are printed by <code>ui:install</code>, see the <x-docs::package-link package="nyumbani-ui" page="installation" anchor="checklist">UI installation</x-docs::package-link>. The command ends with an invitation that links to the docs of each package. Read <a href="{{ $docs->url('rules-and-skills') }}">Rules and skills</a> for what lands where.</p>

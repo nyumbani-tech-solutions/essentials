@@ -62,7 +62,7 @@ These items are printed by `php artisan ui:install`, which is safe to run again.
 | discord log channel | Optional: add a `discord` channel to `config/logging.php` (the installer does when the file allows). |
 | Docs package is a dev dependency | Optional, shown when Docs was chosen: `composer require --dev nyumbani/docs`. |
 | Debugbar is a dev dependency | Optional, shown when Debugbar was chosen: `composer require --dev fruitcake/laravel-debugbar`. |
-| Daraja credentials, Connect settings | Optional, shown only when that package was chosen: set the `DARAJA_*` keys, or `NYUMBANI_CONNECT_BASE_URL` and `NYUMBANI_CONNECT_TOKEN`, in `.env`. |
+| Connect settings | Optional, shown only when that package was chosen: set `NYUMBANI_CONNECT_BASE_URL` and `NYUMBANI_CONNECT_TOKEN` in `.env`. |
 
 The installer reports; it never edits the user model, the routes or any other application code. It only adds the configuration, build and framework files described above, and the portal's files (through `ui:install`), none of which it overwrites.
 
