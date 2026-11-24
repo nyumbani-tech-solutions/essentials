@@ -25,7 +25,7 @@ Import the UI scripts and the Essentials formatting helpers, one line each: `imp
 In a Nyumbani app the sidebar, drawer and user menu are run by the shell script, which uses no Alpine. A project with its own layouts does not load that script's markup contract and builds its shell as it likes. The double-submit guard is the submit script.
 
 ## Formatting helpers and the file input come from the package
-The Essentials helpers script defines `money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate` and `formatDateTime` on `window`, mirroring the PHP helpers, so do not write your own `$store.helpers`. For file uploads use `<x-nyumbani::file-input>`.
+The Essentials helpers script defines `money`, `numeric`, `parseNumber`, `pluralize`, `prettify`, `formatDate` and `formatDateTime` on `window`, mirroring the PHP helpers, so do not write your own `$store.helpers`. For file uploads use `<x-nyumbani::file-input>`, and for every password field use `<x-nyumbani::password-input>`, which has the show and hide toggle built in; do not hand-write a password input or your own toggle.
 
 ## The modal comes from the package
 Use `<x-nyumbani::modal>` for every modal; do not build your own. It runs on the Alpine UI `x-dialog` directive, which the UI bundle registers. Open it with `x-model` (or `wire:model`), the `trigger` slot, or by name: give it `name="edit-customer"` and `$dispatch('open-modal', 'edit-customer')` (`close-modal` closes it; the button that dispatches must sit inside an Alpine scope, so give its wrapper a bare `x-data`), which is the way to open one from a row injected into a data table.
@@ -116,3 +116,6 @@ Pass route parameters as a keyed array, never a bare model: `route('customers.sh
 
 ## Review a form before saving with the modal's confirm option
 When a form needs a review step before it posts, use `<x-nyumbani::modal confirm>` with a `review` slot and a submit in the `action` slot. Do not write hand-rolled two-step toggles with `x-show="confirm"`; they skip native validation or let Enter bypass the review.
+
+## Show an M-Pesa payment with the payment prompt
+Follow a payment the app started with `<x-nyumbani::payment-prompt :attempt="$attempt" :check-url="..." :redirect="...">`, which can sit on a page or inside `<x-nyumbani::modal>` (pad the modal body with `p-4`). Do not build your own waiting, failure or pay-by-hand screen, and do not restyle it with colours of your own: it uses the theme's primary colour. The page starts the push and decides what a new payment means, because the prompt has no start button and no retry. React to its `payment-confirmed` event only for the screen.

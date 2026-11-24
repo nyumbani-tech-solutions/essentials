@@ -19,8 +19,8 @@ class OptionalPackages
             'label' => 'Daraja: M-Pesa payments through Safaricom',
             'dev' => false,
             'config' => ['daraja-config' => 'daraja.php'],
-            'env' => ['DARAJA_ENVIRONMENT', 'DARAJA_SHORT_CODE', 'DARAJA_CONSUMER_KEY', 'DARAJA_CONSUMER_SECRET', 'DARAJA_PASS_KEY', 'DARAJA_TILL_NUMBER', 'DARAJA_MSISDN_RESOLVER_URL', 'DARAJA_MSISDN_RESOLVER_TOKEN', 'DARAJA_MSISDN_RESOLVER_TIMEOUT'],
-            'rules' => [],
+            'env' => ['DARAJA_SHORT_CODE', 'DARAJA_CONSUMER_KEY', 'DARAJA_CONSUMER_SECRET', 'DARAJA_PASS_KEY', 'DARAJA_TILL_NUMBER', 'DARAJA_MSISDN_RESOLVER_URL', 'DARAJA_MSISDN_RESOLVER_TOKEN', 'DARAJA_MSISDN_RESOLVER_TIMEOUT', 'DARAJA_STK_TTL', 'DARAJA_STK_TIMEOUT', 'DARAJA_STK_CHECK_THROTTLE', 'DARAJA_STK_SIMULATE'],
+            'rules' => ['payments.md'],
         ],
         'nyumbani/messaging' => [
             'label' => 'Messaging: SMS sent through Nyumbani Connect',

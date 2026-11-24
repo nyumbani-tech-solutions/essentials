@@ -16,6 +16,7 @@
     <x-docs::section id="offers" title="What it gives you">
         <x-docs::table :columns="['Piece', 'Use it to']" :rows="[
             ['Daraja::stkPush()', 'Prompt a customer to pay on their phone.'],
+            ['StkPushManager', 'Take a payment on screen: start the push, follow it live, confirm it from the C2B payment. Pairs with the payment prompt of nyumbani/ui.'],
             ['Daraja::registerC2BUrls()', 'Hear about every payment made to your paybill or till.'],
             ['Daraja::pullTransactions()', 'Fetch the payments a callback may have missed.'],
             ['EnsureRequestIsFromSafaricom', 'Let only Safaricom reach your callback routes.'],
@@ -30,7 +31,7 @@
 
             $shortCode = new ShortCode('174379', $key, $secret, passKey: $passKey);
 
-            Daraja::for($shortCode)->sandbox()->stkPush('0712345678', 100, 'INV-1', 'Order payment', route('hooks.daraja.stk'));
+            Daraja::for($shortCode)->stkPush('0712345678', 100, 'INV-1', 'Order payment', route('hooks.daraja.stk'));
         </x-docs::code>
         <p>Credentials never go in config: you build a <code>ShortCode</code> wherever your app keeps them, so one app can serve several paybills. The Daraja docs explain the rest, with live examples of every request.</p>
     </x-docs::section>
